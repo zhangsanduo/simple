@@ -17,5 +17,6 @@
 3. 解密此文件::
 
     run_des.o -d /tmp/keyfile.key /home/user/sample.enc /home/user/sample_decrypted.txt
+    
 若用户填写密钥，保存为密钥文件即可。
 
