@@ -4,7 +4,8 @@
 #define maxn 0x8000     // 理论支持明文长度    
 #define ENCODE 0,16,1       // 加密用的宏    
 #define DECODE 15,-1,-1     // 解密用的宏    
-    
+#define ACTION_ENCRYPT "-e"
+#define ACTION_DECRYPT "-d"    
 // 明文初始置换    
 char msg_ch[64] = {    
     58, 50, 42, 34, 26, 18, 10, 2, 60, 52, 44, 36, 28, 20, 12, 4,    
@@ -221,7 +222,7 @@ void DES(char* pmsg, int st, int cl, int step) {
  *  key——密钥  
  *  msg——要加/解密的明/密文  
  */    
-int main(int arg, char* arv[]) {    
+int main(int arg, char* argv[]) {    
     if (arg < 3) {    
         printf("Input Error");    
         return 0;    
@@ -229,19 +230,19 @@ int main(int arg, char* arv[]) {
     init_trans();  
     
     // 读取参数过程    
-    char mode = arv[1][0];    
-    strcpy(key, arv[2]);    
-    strcpy(msg, arv[3]);    
+  //  char mode = arv[1][0];    
+    strcpy(key, argv[2]);    
+    strcpy(msg, argv[3]);    
     
     getKeys(); // 得到16轮要用到的密钥    
     
     int i;  
-    if (mode == '-e') {    
+    if (strcmp(argv[1], ACTION_ENCRYPT) == 0) {    
         for (i = 0; msg[i]; i += 8) {    
             DES(msg + i, ENCODE); // 加密    
             printf("%s", res);    
         }    
-    } else if (mode == '-d') {    
+    } else if (strcmp(argv[1], ACTION_DECRYPT) == 0) {    
         for (i = 0; msg[i]; i += 16) {    
             dropMsg(res, msg + i); // 将密文转换为真正的密文    
             DES(res, DECODE); // 解密    
