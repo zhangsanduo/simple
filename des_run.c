@@ -244,7 +244,7 @@ void DES(char* pmsg, int st, int cl, int step) {
   
     return n;  
 }  */
-char valueToHexCh(const int value)
+/*char valueToHexCh(const int value)
 {
   char result = '\0';
   if(value >= 0 && value <= 9){
@@ -298,7 +298,7 @@ unsigned char CharToHex(unsigned char bHex)
         bHex = 0xff;  
     }  
     return bHex;  
-}
+}*/
 /* 本程序为其他程序调用，所有参数自己定义  
  * 详细参数：  
  * des d/e key msg  
@@ -339,8 +339,8 @@ int main(int argc, char* argv[]) {
            // printf("%lx\n",strtol (res,&string,16)); 
            /* strToHex(res,hex);  
             printf("%s\n", hex); */
-            for(int i=0;i<strlen(res);i++)
-                 printf("%x",(unsigned int)res[i]);
+            for(int i=0; i < strlen(res); i++)
+                 printf("%02X",(unsigned int)res[i]);
         }    
     } else {    
         printf("Input Error!!!");    
