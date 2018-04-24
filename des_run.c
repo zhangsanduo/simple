@@ -339,7 +339,8 @@ int main(int argc, char* argv[]) {
            // printf("%lx\n",strtol (res,&string,16)); 
            /* strToHex(res,hex);  
             printf("%s\n", hex); */
-            for(int i=0;i<strlen(res);i++)
+            int i;
+            for(i=0;i<strlen(res);i++)
                  printf("%x",(unsigned int)res[i]);
         }    
     } else {    
@@ -347,4 +348,4 @@ int main(int argc, char* argv[]) {
     }    
     printf("\n");  
     return 0;    
-}  
+}
