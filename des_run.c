@@ -1,6 +1,7 @@
 #include <stdio.h>    
 #include <string.h>    
-    
+#include <stdlib.h>
+
 #define maxn 0x8000     // 理论支持明文长度    
 #define ENCODE 0,16,1       // 加密用的宏    
 #define DECODE 15,-1,-1     // 解密用的宏    
@@ -111,8 +112,8 @@ void init_trans() {
         sh_ch[hs_ch[i]] = i;    // 完成hash转换的对应    
 }  
     
-char msg[maxn], key[16], res[32];    
-char msgb[72], msgbt[72], keyb[18][72];    
+unsigned char msg[maxn], key[16], res[32],rea[32];    
+unsigned char msgb[72], msgbt[72], keyb[18][72];    
     
 // 字符转成二进制    
 void ChToBit(char* dest, char* src, int length) {    
@@ -214,7 +215,90 @@ void DES(char* pmsg, int st, int cl, int step) {
     else    
         BitToCh(res, msgb, 8); // 转为原明文    
 }    
-    
+/*int htoi(char s[])  
+{  
+    int hexdigit, i, inhex, n;  
+  
+    i = 0;  
+    if(s[i] == '0')         //如果字符串以0x或0X开头，则跳过这两个字符  
+    {  
+        ++i;  
+        if(s[i] == 'x' || s[i] == 'X')    
+            ++i;  
+    }  
+    n = 0;  
+    inhex = 1;            //如果字符是有效16进制字符，则置inhex为YES  
+    for(; inhex == 1; ++i)  
+    {  
+        if(s[i] >= '0' && s[i] <= '9')  
+            hexdigit = s[i] - '0';  
+        else if(s[i] >= 'a' && s[i] <= 'f')  
+            hexdigit = s[i] - 'a' + 10;  
+        else if(s[i] >= 'A' && s[i] <= 'F')  
+            hexdigit = s[i] - 'A' + 10;  
+        else  
+            inhex = 0;  
+        if(inhex == 1)  
+            n = n * 16 + hexdigit;  
+    }  
+  
+    return n;  
+}  */
+char valueToHexCh(const int value)
+{
+  char result = '\0';
+  if(value >= 0 && value <= 9){
+    result = (char)(value + 48); //48为ascii编码的‘0’字符编码值
+  }
+  else if(value >= 10 && value <= 15){
+    result = (char)(value - 10 + 65); //减去10则找出其在16进制的偏移量，65为ascii的'A'的字符编码值
+  }
+  else{
+    ;
+  }
+
+  return result;
+}
+
+int strToHex(char *ch, char *hex)
+{
+  int high,low;
+  int tmp = 0;
+  if(ch == NULL || hex == NULL){
+    return -1;
+  }
+
+  if(strlen(ch) == 0){
+    return -2;
+  }
+
+  while(*ch){
+    tmp = (int)*ch;
+    high = tmp >> 4;
+    low = tmp & 15;
+    *hex++ = valueToHexCh(high); //先写高字节
+    *hex++ = valueToHexCh(low); //其次写低字节
+    ch++;
+  }
+  *hex = '\0';
+  return 0;
+} 
+unsigned char CharToHex(unsigned char bHex)  
+{  
+    if((bHex>=0)&&(bHex<=9))  
+    {  
+        bHex += 0x30;  
+    }  
+    else if((bHex>=10)&&(bHex<=15))//Capital  
+    {  
+        bHex += 0x37;  
+    }  
+    else   
+    {  
+        bHex = 0xff;  
+    }  
+    return bHex;  
+}
 /* 本程序为其他程序调用，所有参数自己定义  
  * 详细参数：  
  * des d/e key msg  
@@ -222,12 +306,13 @@ void DES(char* pmsg, int st, int cl, int step) {
  *  key——密钥  
  *  msg——要加/解密的明/密文  
  */    
-int main(int arg, char* argv[]) {    
-    if (arg < 3) {    
+int main(int argc, char* argv[]) {    
+    if (argc < 3) {    
         printf("Input Error");    
         return 0;    
     }    
     init_trans();  
+    //char * rea;
     
     // 读取参数过程    
   //  char mode = arv[1][0];    
@@ -236,7 +321,7 @@ int main(int arg, char* argv[]) {
     
     getKeys(); // 得到16轮要用到的密钥    
     
-    int i;  
+    int i;  long j;char * string;char hex[1024];
     if (strcmp(argv[1], ACTION_ENCRYPT) == 0) {    
         for (i = 0; msg[i]; i += 8) {    
             DES(msg + i, ENCODE); // 加密    
@@ -245,8 +330,17 @@ int main(int arg, char* argv[]) {
     } else if (strcmp(argv[1], ACTION_DECRYPT) == 0) {    
         for (i = 0; msg[i]; i += 16) {    
             dropMsg(res, msg + i); // 将密文转换为真正的密文    
-            DES(res, DECODE); // 解密    
-            printf("%s", res);    
+            DES(res, DECODE); // 解密  
+          /* int rea=0;
+           rea = htoi(res);
+           printf("%d\n", rea);*/
+          /*  msgPro(rea,msg+i);
+            printf("%s\n", rea);*/
+           // printf("%lx\n",strtol (res,&string,16)); 
+           /* strToHex(res,hex);  
+            printf("%s\n", hex); */
+            for(int i=0;i<strlen(res);i++)
+                 printf("%x",(unsigned int)res[i]);
         }    
     } else {    
         printf("Input Error!!!");    
