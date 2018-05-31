@@ -100,7 +100,7 @@ int final_message_permutation[] =  {40,  8, 48, 16, 56, 24, 64, 32,
 									34,  2, 42, 10, 50, 18, 58, 26,
 									33,  1, 41,  9, 49, 17, 57, 25};
 
-
+//二进制输出字符
 void print_char_as_binary(char input) {
 	int i;
 	for (i=0; i<8; i++) {
@@ -112,14 +112,14 @@ void print_char_as_binary(char input) {
 		}
 	}
 }
-
+//随机生成八字节密钥
 void generate_key(unsigned char* key) {
 	int i;
 	for (i=0; i<8; i++) {
 		key[i] = rand()%255;
 	}
 }
-
+//打印字符集
 void print_key_set(key_set key_set){
 	int i;
 	printf("K: \n");
@@ -144,7 +144,7 @@ void print_key_set(key_set key_set){
 	}
 	printf("\n");
 }
-
+//生成子密钥
 void generate_sub_keys(unsigned char* main_key, key_set* key_sets) {
 	int i, j;
 	int shift_size;
@@ -153,7 +153,7 @@ void generate_sub_keys(unsigned char* main_key, key_set* key_sets) {
 	for (i=0; i<8; i++) {
 		key_sets[0].k[i] = 0;
 	}
-
+//初始置换，得到新的56位密钥
 	for (i=0; i<56; i++) {
 		shift_size = initial_key_permutaion[i];
 		shift_byte = 0x80 >> ((shift_size - 1)%8);
@@ -161,13 +161,23 @@ void generate_sub_keys(unsigned char* main_key, key_set* key_sets) {
 		shift_byte <<= ((shift_size - 1)%8);
 
 		key_sets[0].k[i/8] |= (shift_byte >> i%8);
+		//print_char_as_binary(key_sets[0].k[i]);
 	}
-
+	for(i = 0; i < 7; i++)
+		print_char_as_binary(key_sets[0].k[i]);
+	printf("\n");
+	/*printf("%s\n", key_sets[0].k);*/
+//将密钥拆分成左右两部分，C0和D0，每半边都有28位
 	for (i=0; i<3; i++) {
 		key_sets[0].c[i] = key_sets[0].k[i];
 	}
 
 	key_sets[0].c[3] = key_sets[0].k[3] & 0xF0;
+	for (int i = 0; i < 4; i++)
+	{
+		print_char_as_binary(key_sets[0].c[i]);
+	}
+	printf("\n");
 
 	for (i=0; i<3; i++) {
 		key_sets[0].d[i] = (key_sets[0].k[i+3] & 0x0F) << 4;
@@ -175,8 +185,13 @@ void generate_sub_keys(unsigned char* main_key, key_set* key_sets) {
 	}
 
 	key_sets[0].d[3] = (key_sets[0].k[6] & 0x0F) << 4;
+	for (int i = 0; i < 4; i++)
+	{
+		print_char_as_binary(key_sets[0].d[i]);
+	}
+	printf("\n");
 
-
+//创建16个块Cn和Dn，每一对Cn和Dn都是由前一对Cn-1和Dn-1移位而来，根据key_shift_size表进行左移操作
 	for (i=1; i<17; i++) {
 		for (j=0; j<4; j++) {
 			key_sets[i].c[j] = key_sets[i-1].c[j];
@@ -225,7 +240,8 @@ void generate_sub_keys(unsigned char* main_key, key_set* key_sets) {
 
 		key_sets[i].d[3] <<= shift_size;
 		key_sets[i].d[3] |= (first_shift_bits >> (4 - shift_size));
-
+//根据sub_key_permutation表进行变换，得到48位子密钥
+//第n轮的新秘钥Kn 的第1位来自组合子秘钥CnDn的第14位，第2位来自第17位，依次类推，知道新秘钥的第48位来自组合秘钥的第32位。
 		for (j=0; j<48; j++) {
 			shift_size = sub_key_permutation[j];
 			if (shift_size <= 28) {
@@ -241,8 +257,10 @@ void generate_sub_keys(unsigned char* main_key, key_set* key_sets) {
 			key_sets[i].k[j/8] |= (shift_byte >> j%8);
 		}
 	}
+	print_key_set(key_sets[0]);
+	print_key_set(key_sets[16]);
 }
-
+//加解密数据
 void process_message(unsigned char* message_piece, unsigned char* processed_piece, key_set* key_sets, int mode) {
 	int i, k;
 	int shift_size;
@@ -251,7 +269,8 @@ void process_message(unsigned char* message_piece, unsigned char* processed_piec
 	unsigned char initial_permutation[8];
 	memset(initial_permutation, 0, 8);
 	memset(processed_piece, 0, 8);
-
+//计算初始变换initial permutation,根据initial_message_permutation表
+//参照IP表，M的第58位成为IP的第1位，M的第50位成为IP的第2位，M的第7位成为IP的最后一位。
 	for (i=0; i<64; i++) {
 		shift_size = initial_message_permutation[i];
 		shift_byte = 0x80 >> ((shift_size - 1)%8);
@@ -260,7 +279,12 @@ void process_message(unsigned char* message_piece, unsigned char* processed_piec
 
 		initial_permutation[i/8] |= (shift_byte >> i%8);
 	}
-
+	for (int i = 0; i < 8; ++i)
+	{
+		print_char_as_binary(initial_permutation[i]);
+	}
+	printf("\n");
+//变换IP分为32位的左半边L0和32位的右半边R0
 	unsigned char l[4], r[4];
 	for (i=0; i<4; i++) {
 		l[i] = initial_permutation[i];
@@ -268,13 +292,20 @@ void process_message(unsigned char* message_piece, unsigned char* processed_piec
 	}
 
 	unsigned char ln[4], rn[4], er[6], ser[4];
+/*执行16个迭代，对1<=n<=16，使用一个函数f。函数f输入两个区块——
+	一个32位的数据区块和一个48位的秘钥区块Kn ——
+	输出一个32位的区块。定义+表示异或XOR。那么让n从1循环到16，我们计算
 
+	Ln = Rn-1 
+
+	Rn = Ln-1 + f(Rn-1,Kn)
+*/
 	int key_index;
 	for (k=1; k<=16; k++) {
 		memcpy(ln, r, 4);
 
 		memset(er, 0, 6);
-
+//为了计算f，我们首先拓展每个Rn-1，将其从32位拓展到48位。得到E（R0）（即E盒操作。）
 		for (i=0; i<48; i++) {
 			shift_size = message_expansion[i];
 			shift_byte = 0x80 >> ((shift_size - 1)%8);
@@ -283,7 +314,7 @@ void process_message(unsigned char* message_piece, unsigned char* processed_piec
 
 			er[i/8] |= (shift_byte >> i%8);
 		}
-
+//加解密过程相反，执行16轮迭代中调转左右子密钥的位置
 		if (mode == DECRYPTION_MODE) {
 			key_index = 17 - k;
 		} else {

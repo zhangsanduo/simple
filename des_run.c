@@ -339,12 +339,13 @@ int main(int argc, char* argv[]) {
            // printf("%lx\n",strtol (res,&string,16)); 
            /* strToHex(res,hex);  
             printf("%s\n", hex); */
-            for(int i=0; i < strlen(res); i++)
-                 printf("%02X",(unsigned int)res[i]);
+            int i;
+            for(i=0;i<strlen(res);i++)
+                 printf("%x",(unsigned int)res[i]);
         }    
     } else {    
         printf("Input Error!!!");    
     }    
     printf("\n");  
     return 0;    
-}  
+}
