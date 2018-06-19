@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdint.h>
+#include <ctype.h>
 //<stdint.h> 定义了 int16_t 、 uint32_t 、 int64_t 等整型
 // 元素表T（常量值）
 const uint32_t k[64] = {
@@ -61,6 +62,33 @@ int HextoDs(char s[])//16进制转10进制
     }
     return temp;
 }
+int hextest(char intput[],int len)//测试HEX格式
+{
+    int i,test=1;
+    for(i=0;i<len;i+=2)
+    {
+        if(isxdigit(intput[i])==0)
+        {
+            test=0;
+            break;
+        }
+    }
+    return test;
+}
+void fuchextods(char intput[],char output[],int len)//exz转ASCII
+{
+    int i;
+    char a[3],res;
+     for(i=0;i<len;i+=2)//2位为单位处理转换成ASCII后再输出为字符保存在output
+    {
+        a[0]=intput[i];
+        a[1]=intput[i+1];
+        a[2]=0;
+        res=HextoDs(a);
+        output[i/2]=res;
+    }
+    output[len/2]=0;//字符串终止
+}
 void md5(const uint8_t *initial_msg, size_t initial_len, uint8_t *digest)//MD5加密，参数依次为明文，明文长度，加密结果
  {
 
@@ -73,10 +101,10 @@ void md5(const uint8_t *initial_msg, size_t initial_len, uint8_t *digest)//MD5加
     uint32_t a, b, c, d, i, f, g, temp;
 
     // 初始化变量
-    h0 =// 0x67452301;
-    h1 = // 0xefcdab89;
-    h2 =//  0x98badcfe;
-    h3 = //D 0x10325476;
+    h0 = //0x67452301;//A
+    h1 = //0xefcdab89;//B
+    h2 = //0x98badcfe;//C
+    h3 = //0x10325476;//D
 
    //预处理：
      //将“1”位附加到消息
@@ -93,9 +121,9 @@ void md5(const uint8_t *initial_msg, size_t initial_len, uint8_t *digest)//MD5加
         msg[offset] = //0; // 追加 "0" 位
 
     //在缓冲区末尾添加len位。（补足长度）
-    //to_bytes(initial_len*8, msg + new_len);
+   // to_bytes(initial_len*8, msg + new_len);
     // initial_len >> 29 == initial_len * 8 >> 32，但避免溢出
-    //to_bytes(initial_len>>29, msg + new_len + 4);
+   // to_bytes(initial_len>>29, msg + new_len + 4);
     //以连续的512位块处理消息：
     //对于每个512位的消息块：
     for(offset=0; offset<new_len; offset += (512/8))
@@ -166,26 +194,34 @@ int main(int argc, char **argv)
     uint8_t result[16];
     char intput[512];//16进制输入
     char output[256];//字符输出
-    char a[3];
-    int i,res;
-    scanf("%s",&intput);
-    len=strlen(intput);
-    if(len%2!=0)//判断是否为双数位
+    int i;
+    //scanf("%s",&intput);
+     if(!strcmp(argv[1], "--hex")|| !strcmp(argv[1], "-h"))
     {
-        printf("D41D8CD98F00B204E9800998ECF8427E\n");
-        return 0;
+         strcpy(intput, argv[2]);
+         len=strlen(intput);
+        if(len%2!=0)//判断是否为双数位
+        {
+            printf("D41D8CD98F00B204E9800998ECF8427E\n");
+            return 0;
+        }
+         if(hextest(intput,len)==1)
+        {
+            fuchextods(intput,&output,len);
+            msg= (char *)malloc(strlen(output));
+            strcpy(msg,output);//将转好字符放入msg后进行加密
+        }
+        else
+        {
+            printf("16进制不符合要求");
+            return 0;
+        }
+
     }
-    for(int i=0;i<strlen(intput);i+=2)//2位为单位处理转换成ASCII后再输出为字符保存在output
+    if(!strcmp(argv[1], "--char")|| !strcmp(argv[1], "-c"))
     {
-        a[0]=intput[i];
-        a[1]=intput[i+1];
-        a[2]=0;
-        res=HextoDs(a);
-        output[i/2]=res;
+        msg=argv[2];
     }
-    output[strlen(intput)/2]=0;//字符串终止
-    msg= (char *)malloc(strlen(output));
-    strcpy(msg,output);//将转好字符放入msg后进行加密
     len = strlen(msg);
      //基准
      for (i = 0; i < 1000000; i++)
