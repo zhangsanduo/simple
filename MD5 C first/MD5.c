@@ -62,7 +62,7 @@ int HextoDs(char s[])//16进制转10进制
     }
     return temp;
 }
-int hextest(char intput[],int len)
+int hextest(char intput[],int len)//测试HEX格式
 {
     int i,test=1;
     for(i=0;i<len;i+=2)
@@ -75,7 +75,7 @@ int hextest(char intput[],int len)
     }
     return test;
 }
-void fuchextods(char intput[],char output[],int len)
+void fuchextods(char intput[],char output[],int len)//exz转ASCII
 {
     int i;
     char a[3],res;
@@ -198,13 +198,13 @@ int main(int argc, char **argv)
     //scanf("%s",&intput);
      if(!strcmp(argv[1], "--hex")|| !strcmp(argv[1], "-h"))
     {
+         strcpy(intput, argv[2]);
+         len=strlen(intput);
         if(len%2!=0)//判断是否为双数位
         {
             printf("D41D8CD98F00B204E9800998ECF8427E\n");
             return 0;
         }
-         strcpy(intput, argv[2]);
-         len=strlen(intput);
          if(hextest(intput,len)==1)
         {
             fuchextods(intput,&output,len);
