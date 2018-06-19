@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdint.h>
+#include <ctype.h>
 //<stdint.h> 定义了 int16_t 、 uint32_t 、 int64_t 等整型
 // 元素表T（常量值）
 const uint32_t k[64] = {
@@ -60,6 +61,33 @@ int HextoDs(char s[])//16进制转10进制
         temp=temp*16+n;
     }
     return temp;
+}
+int hextest(char intput[],int len)
+{
+    int i,test=1;
+    for(i=0;i<len;i+=2)
+    {
+        if(isxdigit(intput[i])==0)
+        {
+            test=0;
+            break;
+        }
+    }
+    return test;
+}
+void fuchextods(char intput[],char output[],int len)
+{
+    int i;
+    char a[3],res;
+     for(i=0;i<len;i+=2)//2位为单位处理转换成ASCII后再输出为字符保存在output
+    {
+        a[0]=intput[i];
+        a[1]=intput[i+1];
+        a[2]=0;
+        res=HextoDs(a);
+        output[i/2]=res;
+    }
+    output[len/2]=0;//字符串终止
 }
 void md5(const uint8_t *initial_msg, size_t initial_len, uint8_t *digest)//MD5加密，参数依次为明文，明文长度，加密结果
  {
@@ -166,26 +194,34 @@ int main(int argc, char **argv)
     uint8_t result[16];
     char intput[512];//16进制输入
     char output[256];//字符输出
-    char a[3];
-    int i,res;
-    scanf("%s",&intput);
-    len=strlen(intput);
-    if(len%2!=0)//判断是否为双数位
+    int i;
+    //scanf("%s",&intput);
+     if(!strcmp(argv[1], "--hex")|| !strcmp(argv[1], "-h"))
     {
-        printf("D41D8CD98F00B204E9800998ECF8427E\n");
-        return 0;
+        if(len%2!=0)//判断是否为双数位
+        {
+            printf("D41D8CD98F00B204E9800998ECF8427E\n");
+            return 0;
+        }
+         strcpy(intput, argv[2]);
+         len=strlen(intput);
+         if(hextest(intput,len)==1)
+        {
+            fuchextods(intput,&output,len);
+            msg= (char *)malloc(strlen(output));
+            strcpy(msg,output);//将转好字符放入msg后进行加密
+        }
+        else
+        {
+            printf("16进制不符合要求");
+            return 0;
+        }
+
     }
-    for(int i=0;i<strlen(intput);i+=2)//2位为单位处理转换成ASCII后再输出为字符保存在output
+    if(!strcmp(argv[1], "--char")|| !strcmp(argv[1], "-c"))
     {
-        a[0]=intput[i];
-        a[1]=intput[i+1];
-        a[2]=0;
-        res=HextoDs(a);
-        output[i/2]=res;
+        msg=argv[2];
     }
-    output[strlen(intput)/2]=0;//字符串终止
-    msg= (char *)malloc(strlen(output));
-    strcpy(msg,output);//将转好字符放入msg后进行加密
     len = strlen(msg);
      //基准
      for (i = 0; i < 1000000; i++)
