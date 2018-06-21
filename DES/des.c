@@ -290,7 +290,16 @@ void process_message(unsigned char* message_piece, unsigned char* processed_piec
 		l[i] = initial_permutation[i];
 		r[i] = initial_permutation[i+4];
 	}
-
+    for (int i = 0; i < 4; ++i)
+    {
+    	print_char_as_binary(l[i]);
+    }
+    printf("\n");
+    for (int i = 0; i < 4; ++i)
+    {
+    	print_char_as_binary(r[i]);
+    }
+    printf("\n");
 	unsigned char ln[4], rn[4], er[6], ser[4];
 /*执行16个迭代，对1<=n<=16，使用一个函数f。函数f输入两个区块——
 	一个32位的数据区块和一个48位的秘钥区块Kn ——

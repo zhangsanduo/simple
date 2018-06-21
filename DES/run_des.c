@@ -134,6 +134,7 @@ int main(int argc, char* argv[]) {
 			if (block_count == number_of_blocks) {
 				if (process_mode == ENCRYPTION_MODE) {
 					padding = 8 - file_size%8;
+					printf("%d\n",padding);
 					if (padding < 8) { // Fill empty data block bytes with padding
 						memset((data_block + 8 - padding), (unsigned char)padding, padding);
 					}
