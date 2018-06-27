@@ -196,9 +196,9 @@ int main(int argc, char **argv)
     char output[256];//字符输出
     int i;
     //scanf("%s",&intput);
-     if(!strcmp(argv[1], "--hex")|| !strcmp(argv[1], "-h"))
-    {
-         strcpy(intput, argv[2]);
+    // if(!strcmp(argv[1], "--hex")|| !strcmp(argv[1], "-h"))
+    //{
+         strcpy(intput, argv[1]);
          len=strlen(intput);
         if(len%2!=0)//判断是否为双数位
         {
@@ -217,12 +217,12 @@ int main(int argc, char **argv)
             return 0;
         }
 
-    }
-    if(!strcmp(argv[1], "--char")|| !strcmp(argv[1], "-c"))
+   // }
+    /*if(!strcmp(argv[1], "--char")|| !strcmp(argv[1], "-c"))
     {
         msg=argv[2];
     }
-    len = strlen(msg);
+    len = strlen(msg);*/
      //基准
      for (i = 0; i < 1000000; i++)
             md5((uint8_t*)msg, len, result);//MD5计算
