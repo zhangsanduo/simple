@@ -1,10 +1,10 @@
-ï»¿#include <stdio.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <stdint.h>
 #include <ctype.h>
-//<stdint.h> å®šä¹‰äº† int16_t ã€ uint32_t ã€ int64_t ç­‰æ•´å‹
-// å…ƒç´ è¡¨Tï¼ˆå¸¸é‡å€¼ï¼‰
+//<stdint.h> ¶¨ÒåÁË int16_t ¡¢ uint32_t ¡¢ int64_t µÈÕûĞÍ
+// ÔªËØ±íT£¨³£Á¿Öµ£©
 const uint32_t k[64] = {
 0xd76aa478, 0xe8c7b756, 0x242070db, 0xc1bdceee ,
 0xf57c0faf, 0x4787c62a, 0xa8304613, 0xfd469501 ,
@@ -23,37 +23,37 @@ const uint32_t k[64] = {
 0x6fa87e4f, 0xfe2ce6e0, 0xa3014314, 0x4e0811a1 ,
 0xf7537e82, 0xbd3af235, 0x2ad7d2bb, 0xeb86d391 };
 
-// å››è½®ç§»åŠ¨é‡
+// ËÄÂÖÒÆ¶¯Á¿
 const uint32_t r[] = {7, 12, 17, 22, 7, 12, 17, 22, 7, 12, 17, 22, 7, 12, 17, 22,
                       5,  9, 14, 20, 5,  9, 14, 20, 5,  9, 14, 20, 5,  9, 14, 20,
                       4, 11, 16, 23, 4, 11, 16, 23, 4, 11, 16, 23, 4, 11, 16, 23,
                       6, 10, 15, 21, 6, 10, 15, 21, 6, 10, 15, 21, 6, 10, 15, 21};
 
-// å·¦æ—‹å‡½æ•°å®šä¹‰
+// ×óĞıº¯Êı¶¨Òå
 #define LEFTROTATE(x, c) (((x) << (c)) | ((x) >> (32 - (c))))
 
-void to_bytes(uint32_t val, uint8_t *bytes)//è½¬8ä½
+void to_bytes(uint32_t val, uint8_t *bytes)//×ª8Î»
 {
-    bytes[0] = (uint8_t) val;//å–32ä½çš„å‰8ä½
-    bytes[1] = (uint8_t) (val >> 8);//å–32ä½çš„ç¬¬2ä¸ª8ä½
+    bytes[0] = (uint8_t) val;//È¡32Î»µÄÇ°8Î»
+    bytes[1] = (uint8_t) (val >> 8);//È¡32Î»µÄµÚ2¸ö8Î»
     bytes[2] = (uint8_t) (val >> 16);
     bytes[3] = (uint8_t) (val >> 24);
 }
 
-uint32_t to_int32(const uint8_t *bytes)//è½¬32ä½
+uint32_t to_int32(const uint8_t *bytes)//×ª32Î»
 {
     return (uint32_t) bytes[0]
         | ((uint32_t) bytes[1] << 8)
         | ((uint32_t) bytes[2] << 16)
         | ((uint32_t) bytes[3] << 24);
 }
-int HextoDs(char s[])//16è¿›åˆ¶è½¬10è¿›åˆ¶
+int HextoDs(char s[])//16½øÖÆ×ª10½øÖÆ
 {
     int i,m,temp=0,n;
-    m=strlen(s);//åå…­è¿›åˆ¶æ˜¯æŒ‰å­—ç¬¦ä¸²ä¼ è¿›æ¥çš„ï¼Œæ‰€ä»¥è¦è·å¾—ä»–çš„é•¿åº¦
+    m=strlen(s);//Ê®Áù½øÖÆÊÇ°´×Ö·û´®´«½øÀ´µÄ£¬ËùÒÔÒª»ñµÃËûµÄ³¤¶È
     for(i=0;i<m;i++)
     {
-        if(s[i]>='A'&&s[i]<='F')//åå…­è¿›åˆ¶è¿˜è¦åˆ¤æ–­ä»–æ˜¯ä¸æ˜¯åœ¨A-Fæˆ–è€…a-fä¹‹é—´a=10ã€‚ã€‚
+        if(s[i]>='A'&&s[i]<='F')//Ê®Áù½øÖÆ»¹ÒªÅĞ¶ÏËûÊÇ²»ÊÇÔÚA-F»òÕßa-fÖ®¼äa=10¡£¡£
          n=s[i]-'A'+10;
         else if(s[i]>='a'&&s[i]<='f')
          n=s[i]-'a'+10;
@@ -62,7 +62,7 @@ int HextoDs(char s[])//16è¿›åˆ¶è½¬10è¿›åˆ¶
     }
     return temp;
 }
-int hextest(char intput[],int len)//æµ‹è¯•HEXæ ¼å¼
+int hextest(char intput[],int len)
 {
     int i,test=1;
     for(i=0;i<len;i+=2)
@@ -75,11 +75,11 @@ int hextest(char intput[],int len)//æµ‹è¯•HEXæ ¼å¼
     }
     return test;
 }
-void fuchextods(char intput[],char output[],int len)//exzè½¬ASCII
+void fuchextods(char intput[],char output[],int len)
 {
     int i;
     char a[3],res;
-     for(i=0;i<len;i+=2)//2ä½ä¸ºå•ä½å¤„ç†è½¬æ¢æˆASCIIåå†è¾“å‡ºä¸ºå­—ç¬¦ä¿å­˜åœ¨output
+     for(i=0;i<len;i+=2)//2Î»Îªµ¥Î»´¦Àí×ª»»³ÉASCIIºóÔÙÊä³öÎª×Ö·û±£´æÔÚoutput
     {
         a[0]=intput[i];
         a[1]=intput[i+1];
@@ -87,78 +87,78 @@ void fuchextods(char intput[],char output[],int len)//exzè½¬ASCII
         res=HextoDs(a);
         output[i/2]=res;
     }
-    output[len/2]=0;//å­—ç¬¦ä¸²ç»ˆæ­¢
+    output[len/2]=0;//×Ö·û´®ÖÕÖ¹
 }
-void md5(const uint8_t *initial_msg, size_t initial_len, uint8_t *digest)//MD5åŠ å¯†ï¼Œå‚æ•°ä¾æ¬¡ä¸ºæ˜æ–‡ï¼Œæ˜æ–‡é•¿åº¦ï¼ŒåŠ å¯†ç»“æœ
+void md5(const uint8_t *initial_msg, size_t initial_len, uint8_t *digest)//MD5¼ÓÃÜ£¬²ÎÊıÒÀ´ÎÎªÃ÷ÎÄ£¬Ã÷ÎÄ³¤¶È£¬¼ÓÃÜ½á¹û
  {
 
-    // è¿™äº›å˜é‡å°†åŒ…å«æ•£åˆ—
+    // ÕâĞ©±äÁ¿½«°üº¬É¢ÁĞ
     uint32_t h0, h1, h2, h3;
-    //æ¶ˆæ¯
+    //ÏûÏ¢
     uint8_t *msg = NULL;
     size_t new_len, offset;
     uint32_t w[16];
     uint32_t a, b, c, d, i, f, g, temp;
 
-    // åˆå§‹åŒ–å˜é‡
+    // ³õÊ¼»¯±äÁ¿
     h0 = 0x67452301;//A
     h1 = 0xefcdab89;//B
     h2 = 0x98badcfe;//C
     h3 = 0x10325476;//D
 
-   //é¢„å¤„ç†ï¼š
-     //å°†â€œ1â€ä½é™„åŠ åˆ°æ¶ˆæ¯
-     //è¿½åŠ â€œ0â€ä½ï¼Œç›´åˆ°ä½â‰¡448ä¸­çš„æ¶ˆæ¯é•¿åº¦ï¼ˆæ¨¡512ï¼‰
-     //æ·»åŠ é•¿åº¦modï¼ˆ2 ^ 64ï¼‰åˆ°æ¶ˆæ¯
+   //Ô¤´¦Àí£º
+     //½«¡°1¡±Î»¸½¼Óµ½ÏûÏ¢
+     //×·¼Ó¡°0¡±Î»£¬Ö±µ½Î»¡Ô448ÖĞµÄÏûÏ¢³¤¶È£¨Ä£512£©
+     //Ìí¼Ó³¤¶Èmod£¨2 ^ 64£©µ½ÏûÏ¢
     for (new_len = initial_len + 1; new_len % (512/8) != 448/8; new_len++)
         ;
 
     msg = (uint8_t*)malloc(new_len + 8);
     memcpy(msg, initial_msg, initial_len);
-    //æ¶ˆæ¯å¡«å……
-    msg[initial_len] = 0x80; //è¿½åŠ â€œ1â€ä½
+    //ÏûÏ¢Ìî³ä
+    msg[initial_len] = 0x80; //×·¼Ó¡°1¡±Î»
     for (offset = initial_len + 1; offset < new_len; offset++)
-        msg[offset] = 0; // è¿½åŠ  "0" ä½
+        msg[offset] = 0; // ×·¼Ó "0" Î»
 
-    //åœ¨ç¼“å†²åŒºæœ«å°¾æ·»åŠ lenä½ã€‚ï¼ˆè¡¥è¶³é•¿åº¦ï¼‰
+    //ÔÚ»º³åÇøÄ©Î²Ìí¼ÓlenÎ»¡££¨²¹×ã³¤¶È£©
     to_bytes(initial_len*8, msg + new_len);
-    // initial_len >> 29 == initial_len * 8 >> 32ï¼Œä½†é¿å…æº¢å‡º
+    // initial_len >> 29 == initial_len * 8 >> 32£¬µ«±ÜÃâÒç³ö
     to_bytes(initial_len>>29, msg + new_len + 4);
-    //ä»¥è¿ç»­çš„512ä½å—å¤„ç†æ¶ˆæ¯ï¼š
-    //å¯¹äºæ¯ä¸ª512ä½çš„æ¶ˆæ¯å—ï¼š
+    //ÒÔÁ¬ĞøµÄ512Î»¿é´¦ÀíÏûÏ¢£º
+    //¶ÔÓÚÃ¿¸ö512Î»µÄÏûÏ¢¿é£º
     for(offset=0; offset<new_len; offset += (512/8))
     {
-        //å°†å—åˆ†æˆ16ä¸ª32ä½å­—w [j]ï¼Œ0â‰¤jâ‰¤15
+        //½«¿é·Ö³É16¸ö32Î»×Öw [j]£¬0¡Üj¡Ü15
         for (i = 0; i < 16; i++)
             w[i] = to_int32(msg + offset + i*4);
-    //ä¸ºè¿™ä¸ªå—åˆå§‹åŒ–æ•£åˆ—å€¼ï¼š
+    //ÎªÕâ¸ö¿é³õÊ¼»¯É¢ÁĞÖµ£º
         a = h0;
         b = h1;
         c = h2;
         d = h3;
-        // ä¸»è¦å¾ªç¯:
+        // Ö÷ÒªÑ­»·:
         for(i = 0; i<64; i++)
         {
 
             if (i < 16)
             {
-                f = (b & c) | ((~b) & d);//åŸºæœ¬é€»è¾‘å‡½æ•°F
-                g = i;//ç¬¬ä¸€è½®ä¾æ¬¡åŠ 1
+                f = (b & c) | ((~b) & d);//»ù±¾Âß¼­º¯ÊıF
+                g = i;//µÚÒ»ÂÖÒÀ´Î¼Ó1
             }
             else if (i < 32)
             {
-                f = (d & b) | ((~d) & c);//åŸºæœ¬é€»è¾‘å‡½æ•°G
-                g = (5*i + 1) % 16;//ç¬¬äºŒè½®ä¾æ¬¡åŠ 5æ¨¡16
+                f = (d & b) | ((~d) & c);//»ù±¾Âß¼­º¯ÊıG
+                g = (5*i + 1) % 16;//µÚ¶şÂÖÒÀ´Î¼Ó5Ä£16
             }
              else if (i < 48)
              {
-                f = b ^ c ^ d;//åŸºæœ¬é€»è¾‘å‡½æ•°H
-                g = (3*i + 5) % 16;//ç¬¬ä¸‰è½®ä¾æ¬¡åŠ 3æ¨¡16
+                f = b ^ c ^ d;//»ù±¾Âß¼­º¯ÊıH
+                g = (3*i + 5) % 16;//µÚÈıÂÖÒÀ´Î¼Ó3Ä£16
             }
             else
             {
-                f = c ^ (b | (~d));//åŸºæœ¬é€»è¾‘å‡½æ•°I
-                g = (7*i) % 16;//ç¬¬å››è½®ä¾æ¬¡åŠ 7æ¨¡16
+                f = c ^ (b | (~d));//»ù±¾Âß¼­º¯ÊıI
+                g = (7*i) % 16;//µÚËÄÂÖÒÀ´Î¼Ó7Ä£16
             }
 
             temp = d;
@@ -169,7 +169,7 @@ void md5(const uint8_t *initial_msg, size_t initial_len, uint8_t *digest)//MD5åŠ
 
         }
 
-        // æ·»åŠ æ­¤å—çš„æ•£åˆ—åˆ°ç›®å‰ä¸ºæ­¢ï¼š
+        // Ìí¼Ó´Ë¿éµÄÉ¢ÁĞµ½Ä¿Ç°ÎªÖ¹£º
         h0 += a;
         h1 += b;
         h2 += c;
@@ -180,7 +180,7 @@ void md5(const uint8_t *initial_msg, size_t initial_len, uint8_t *digest)//MD5åŠ
     // cleanup
     free(msg);
 
-    // var unit_8 digest [16] å°†ç»“æœæ”¾å…¥digest å½¢æˆæœ€å128it
+    // var unit_8 digest [16] ½«½á¹û·ÅÈëdigest ĞÎ³É×îºó128it
     to_bytes(h0, digest);
     to_bytes(h1, digest + 4);
     to_bytes(h2, digest + 8);
@@ -189,18 +189,16 @@ void md5(const uint8_t *initial_msg, size_t initial_len, uint8_t *digest)//MD5åŠ
 
 int main(int argc, char **argv)
 {
-    char *msg;//æ¶ˆæ¯
+    char *msg;//ÏûÏ¢
     size_t len;
     uint8_t result[16];
-    char intput[512];//16è¿›åˆ¶è¾“å…¥
-    char output[256];//å­—ç¬¦è¾“å‡º
+    char intput[512];//16½øÖÆÊäÈë
+    char output[256];//×Ö·ûÊä³ö
     int i;
     //scanf("%s",&intput);
-    // if(!strcmp(argv[1], "--hex")|| !strcmp(argv[1], "-h"))
-    //{
          strcpy(intput, argv[1]);
          len=strlen(intput);
-        if(len%2!=0)//åˆ¤æ–­æ˜¯å¦ä¸ºåŒæ•°ä½
+        if(len%2!=0)//ÅĞ¶ÏÊÇ·ñÎªË«ÊıÎ»
         {
             printf("D41D8CD98F00B204E9800998ECF8427E\n");
             return 0;
@@ -209,24 +207,19 @@ int main(int argc, char **argv)
         {
             fuchextods(intput,&output,len);
             msg= (char *)malloc(strlen(output));
-            strcpy(msg,output);//å°†è½¬å¥½å­—ç¬¦æ”¾å…¥msgåè¿›è¡ŒåŠ å¯†
+            strcpy(msg,output);//½«×ªºÃ×Ö·û·ÅÈëmsgºó½øĞĞ¼ÓÃÜ
         }
         else
         {
-            printf("16è¿›åˆ¶ä¸ç¬¦åˆè¦æ±‚");
+            printf("16½øÖÆ²»·ûºÏÒªÇó");
             return 0;
         }
 
-   // }
-    /*if(!strcmp(argv[1], "--char")|| !strcmp(argv[1], "-c"))
-    {
-        msg=argv[2];
-    }
-    len = strlen(msg);*/
-     //åŸºå‡†
+    len = strlen(msg);
+     //»ù×¼
      for (i = 0; i < 1000000; i++)
-            md5((uint8_t*)msg, len, result);//MD5è®¡ç®—
-    // è¾“å‡ºç»“æœ
+            md5((uint8_t*)msg, len, result);//MD5¼ÆËã
+    // Êä³ö½á¹û
     for (i = 0; i < 16; i++)
         printf("%2.2x", result[i]);
     puts("");
