@@ -18,24 +18,16 @@ des_run.o -d key enc
 拆分代码使用方法
 ----------------
 
-1. 确保des.c, des.h 和run_des.c 在同级目录下
-2. 编译指令: gcc -O3 des.c run_des.c -o run_des.o   
+编译指令: gcc des_process.c -o run_des.o   
+1.加密：
 
-使用
---------
-以加密/解密一个/home/user/sample.txt为例
+run_des.o -e key msg
 
-1. 生成一个密钥文件::
+2.解密：
 
-    run_des.o -g /tmp/keyfile.key
-2. 加密此文件::
+run_des.o -d key enc
 
-    run_des.o -e /tmp/keyfile.key /home/user/sample.txt /home/user/sample.enc
-3. 解密此文件::
-
-    run_des.o -d /tmp/keyfile.key /home/user/sample.enc /home/user/sample_decrypted.txt
-    
-若用户填写密钥，保存为密钥文件即可。
+执行加密后命令行结果为面板图片对应的3-18部分。（面板图片在同级目录下）
 
 
 ***
