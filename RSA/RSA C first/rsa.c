@@ -162,7 +162,7 @@ long long *rsa_encrypt(const char *message, const unsigned long message_size,
 
 //我们为输出分配空间来作为char数组进行解密（temp）和空间
    //（解密）
-char *rsa_decrypt(const long long *message, 
+/*char *rsa_decrypt(const long long *message, 
                   const unsigned long message_size, 
                   const struct private_key_class *priv)
 {
@@ -179,7 +179,7 @@ char *rsa_decrypt(const long long *message,
      "Error: Heap allocation failed.\n");
     return NULL;
   }
-  // Now we go through each 8-byte chunk and decrypt it.
+  // 现在我们遍历每个8字节的块并解密它。
   long long i = 0;
   for(i=0; i < message_size/8; i++){
     temp[i] = rsa_modExp(message[i], priv->exponent, priv->modulus);
@@ -191,10 +191,19 @@ char *rsa_decrypt(const long long *message,
   }
   free(temp);
   return decrypted;
+}*/
+
+char *rsa_decrypt(const long long *message,int len,
+                  const struct private_key_class *priv)
+{
+  long long *temp = malloc(1024);
+  // 现在我们遍历每个8字节的块并解密它。
+  long long i = 0;
+  for(i=0; i < len; i++){
+    temp[i] = rsa_modExp(message[i], priv->exponent, priv->modulus);
+  }
+  return temp;
 }
-
-
-
 
 
 

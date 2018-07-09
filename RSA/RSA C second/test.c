@@ -2,6 +2,17 @@
 #include "rsa.h"
 #include <string.h>
 #include <stdlib.h>
+long long chartoint(char *s)
+{
+    long long n=0;
+    char *p=s;
+    while(*p)
+    {
+        n=n*10+(*p-'0'); //把字符转换成数值
+        p++;
+ 	}
+ 	return n;
+}
 int HextoDs(char s[])//16进制转10进制
 {
     int i,m,temp=0,n;
@@ -48,14 +59,23 @@ int main(int argc, char **argv)
 {
   struct public_key_class pub[1];
   struct private_key_class priv[1];
-  rsa_gen_keys(pub, priv, PRIME_SOURCE_FILE);
+  char message[512],intput[512];
+  char number[20];
+  int i,len;
+  if(!strcmp(argv[1], "--gen")|| !strcmp(argv[1], "-g"))
+{
+    rsa_gen_keys(pub, priv, PRIME_SOURCE_FILE);
 
   printf("私钥:\n n: %lld\n d: %lld\n", (long long)priv->modulus, (long long) priv->exponent);
   printf("公钥:\n n: %lld\n e: %lld\n", (long long)pub->modulus, (long long) pub->exponent);
-  
-  char message[512],intput[512];
-  int i,len;
-  strcpy(intput, argv[1]);
+}
+  if(!strcmp(argv[1], "--encrypt")|| !strcmp(argv[1], "-e"))
+{
+  strcpy(number,argv[2]);
+  pub->exponent=chartoint(number);
+  strcpy(number,argv[3]);
+  pub->modulus=chartoint(number);
+  strcpy(intput, argv[4]);
   len=strlen(intput);
         if(len%2!=0)//判断是否为双数位
         {
@@ -71,11 +91,6 @@ int main(int argc, char **argv)
             printf("16进制不符合要求");
             return 0;
         }
-  printf("明文ascii:\n");
-  for(i=0; i < strlen(message); i++){
-    printf("%lld ", (long long)message[i]);
-  }  
-   printf("\n");
   //加密
   long long *encrypted = rsa_encrypt(message, strlen(message), pub);
   if (!encrypted){
@@ -87,18 +102,34 @@ int main(int argc, char **argv)
     printf("%x ", (long long)encrypted[i]);
   } 
  printf("\n"); 
+  free(encrypted);
+}
+  if(!strcmp(argv[1], "--decrypt")|| !strcmp(argv[1], "-d"))
+{
   //解密
-  char *decrypted = rsa_decrypt(encrypted, 8*strlen(message), priv);
+  strcpy(number,argv[2]);
+  priv->exponent=chartoint(number);
+  strcpy(number,argv[3]);
+  priv->modulus=chartoint(number);
+  long long *ciphertext=malloc(argc-3);
+  int j=0;
+  len=0;
+  for(i=4;i<argc;i++)
+{
+  ciphertext[j++]=HextoDs(argv[i]);
+   len=j;
+}
+  long long *decrypted =rsa_decrypt(ciphertext,len,priv);
   if (!decrypted){
     fprintf(stderr, "Error in decryption!\n");
     return 1;
   }
   printf("解密:\n");
-  for(i=0; i < strlen(message); i++){
-    printf("%lld ", (long long)decrypted[i]);
+  for(i=0; i < len; i++){
+    printf("%x ", (long long)decrypted[i]);
   }  
   printf("\n");
-  free(encrypted);
-  free(decrypted);
+ free(decrypted);
+}
   return 0;
 }
