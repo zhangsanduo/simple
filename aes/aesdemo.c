@@ -86,8 +86,6 @@ static void convertToIntArray(char *str, int pa[4][4]) {
             pa[j][i] = getIntFromChar(str[k]);
             k++;
         }
-
-        printf("%x", k);
 }
 
 /**
@@ -217,55 +215,25 @@ static void extendKey(char *key) {
  * 轮密钥加
  */
 static void addRoundKey(int array[4][4], int round) {
-    int warray[4];
-    for(int i = 0; i < 4; i++) {
 
-        splitIntToArray(w[ round * 4 + i], warray);
-
-        for(int j = 0; j < 4; j++) {
-            array[j][i] = array[j][i] ^ warray[j];
-            printf("%x", array[j][i]);
-        }
-    }
-        printf("\n");
 }
 
 /**
- * 字节代换
+ * 字节代换会用到getNumFromSBox函数
  */
 static void subBytes(int array[4][4]){
-    for(int i = 0; i < 4; i++)
-        for(int j = 0; j < 4; j++){
-            array[i][j] = getNumFromSBox(array[i][j]);
-            printf("%x",array[i][j]);
-        }
-        printf("\n");
+
 }
 
 /**
- * 行移位
+ * 行移位会用到leftLoop4int函数
  */
 static void shiftRows(int array[4][4]) {
-    int rowTwo[4], rowThree[4], rowFour[4];
     //复制状态矩阵的第2,3,4行
-    for(int i = 0; i < 4; i++) {
-        rowTwo[i] = array[1][i];
-        rowThree[i] = array[2][i];
-        rowFour[i] = array[3][i];
-    }
+
     //循环左移相应的位数
-    leftLoop4int(rowTwo, 1);
-    leftLoop4int(rowThree, 2);
-    leftLoop4int(rowFour, 3);
 
     //把左移后的行复制回状态矩阵中
-    for(int i = 0; i < 4; i++) {
-        array[1][i] = rowTwo[i];
-        array[2][i] = rowThree[i];
-        array[3][i] = rowFour[i];
-        printf("%x%x%x",array[1][i],array[2][i],array[3][i]);
-    }
-    printf("\n");
 }
 
 /**
@@ -344,23 +312,10 @@ static int GFMul(int n, int s) {
     return result;
 }
 /**
- * 列混合
+ * 列混合会用到GFMul函数
  */
 static void mixColumns(int array[4][4]) {
 
-    int tempArray[4][4];
-
-    for(int i = 0; i < 4; i++)
-        for(int j = 0; j < 4; j++)
-            tempArray[i][j] = array[i][j];
-
-    for(int i = 0; i < 4; i++)
-        for(int j = 0; j < 4; j++){
-            array[i][j] = GFMul(colM[i][0],tempArray[0][j]) ^ GFMul(colM[i][1],tempArray[1][j]) 
-                ^ GFMul(colM[i][2],tempArray[2][j]) ^ GFMul(colM[i][3], tempArray[3][j]);
-            printf("%x",array[i][j]);
-        }
-        printf("\n");
 }
 /**
  * 把4X4数组转回字符串
@@ -441,16 +396,10 @@ static int getNumFromS1Box(int index) {
     return S2[row][col];
 }
 /**
- * 逆字节变换
+ * 逆字节变换会用到getNumFromS1Box函数
  */
 static void deSubBytes(int array[4][4]) {
-    for(int i = 0; i < 4; i++)
-        for(int j = 0; j < 4; j++){
-            array[i][j] = getNumFromS1Box(array[i][j]);
-            printf("%x",array[i][j]);
-        }
 
-        printf("\n");
 }
 /**
  * 把4个元素的数组循环右移step位
@@ -470,7 +419,7 @@ static void rightLoop4int(int array[4], int step) {
 }
 
 /**
- * 逆行移位
+ * 逆行移位会用到rightLoop4int函数
  */
 static void deShiftRows(int array[4][4]) {
     int rowTwo[4], rowThree[4], rowFour[4];
@@ -502,22 +451,10 @@ static const int deColM[4][4] = { 0xe, 0xb, 0xd, 0x9,
     0xb, 0xd, 0x9, 0xe };
 
 /**
- * 逆列混合
+ * 逆列混合会用到GFMul函数
  */
 static void deMixColumns(int array[4][4]) {
-    int tempArray[4][4];
 
-    for(int i = 0; i < 4; i++)
-        for(int j = 0; j < 4; j++)
-            tempArray[i][j] = array[i][j];
-
-    for(int i = 0; i < 4; i++)
-        for(int j = 0; j < 4; j++){
-            array[i][j] = GFMul(deColM[i][0],tempArray[0][j]) ^ GFMul(deColM[i][1],tempArray[1][j]) 
-                ^ GFMul(deColM[i][2],tempArray[2][j]) ^ GFMul(deColM[i][3], tempArray[3][j]);
-            printf("%x",array[i][j]);
-        }
-        printf("\n");
 }
 /**
  * 把两个4X4数组进行异或
@@ -598,70 +535,4 @@ void deAes(char *c, int clen, char *key) {
         convertArrayToStr(cArray, c + k);
 
     }
-}
-
-void printASCCI(char *str, int len) {
-    int c;
-    for(int i = 0; i < len; i++) {
-        c = (int)*str++;
-        c = c & 0x000000ff;
-        if(c<=15)printf("0");
-        printf("%x", c);
-    }
-    printf("\n");
-}
-
-void myAes(char *p, int plen, char *key){
-    aes(p,plen,key);
-    printASCCI(p, plen);
-}
-
-void myDeAes(char *c, int clen, char *key){
-    printASCCI(c, clen);
-    deAes(c,clen,key);
-    c[16]=0;
-    printf("%s\n", c);
-}
-
-int HextoDs(char s[])//16进制转10进制
-{
-    int i,m,temp=0,n;
-    m=strlen(s);//十六进制是按字符串传进来的，所以要获得他的长度
-    for(i=0;i<m;i++)
-    {
-        if(s[i]>='A'&&s[i]<='F')//十六进制还要判断他是不是在A-F或者a-f之间a=10。。
-         n=s[i]-'A'+10;
-        else if(s[i]>='a'&&s[i]<='f')
-         n=s[i]-'a'+10;
-         else n=s[i]-'0';
-        temp=temp*16+n;
-    }
-    return temp;
-}
-int hextest(char intput[],int len)//测试HEX格式
-{
-    int i,test=1;
-    for(i=0;i<len;i+=2)
-    {
-        if(isxdigit(intput[i])==0)
-        {
-            test=0;
-            break;
-        }
-    }
-    return test;
-}
-void fuchextods(char intput[],char output[],int len)
-{
-    int i;
-    char a[3],res;
-     for(i=0;i<len;i+=2)//2位为单位处理转换成ASCII后再输出为字符保存在output
-    {
-        a[0]=intput[i];
-        a[1]=intput[i+1];
-        a[2]=0;
-        res=HextoDs(a);
-        output[i/2]=res;
-    }
-    output[len]=0;
 }
