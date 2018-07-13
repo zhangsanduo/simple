@@ -91,6 +91,7 @@ static void convertToIntArray(char *str, int pa[4][4]) {
             pa[j][i] = getIntFromChar(str[k]);
             k++;
         }
+    printf("%x", k);
 }
 
 /**
@@ -100,7 +101,9 @@ static void printArray(int a[4][4]) {
     for(int i = 0; i < 4; i++){
         for(int j = 0; j < 4; j++)
         printf("a[%d][%d] = 0x%x ", i, j, a[i][j]);
+        printf("\n");
     }
+    printf("\n");
 }
 
 /**
@@ -227,8 +230,10 @@ static void addRoundKey(int array[4][4], int round) {
 
         for(int j = 0; j < 4; j++) {
             array[j][i] = array[j][i] ^ warray[j];
+            printf("%x", array[j][i]);
         }
     }
+    printf("\n");
 }
 
 /**
@@ -238,7 +243,9 @@ static void subBytes(int array[4][4]){
     for(int i = 0; i < 4; i++)
         for(int j = 0; j < 4; j++){
             array[i][j] = getNumFromSBox(array[i][j]);
+            printf("%x",array[i][j]);
         }
+    printf("\n");
 }
 
 /**
@@ -262,7 +269,9 @@ static void shiftRows(int array[4][4]) {
         array[1][i] = rowTwo[i];
         array[2][i] = rowThree[i];
         array[3][i] = rowFour[i];
+        printf("%x%x%x",array[1][i],array[2][i],array[3][i]);
     }
+    printf("\n");
 }
 
 /**
@@ -357,7 +366,9 @@ static void mixColumns(int array[4][4]) {
         for(int j = 0; j < 4; j++){
             array[i][j] = GFMul(colM[i][0],tempArray[0][j]) ^ GFMul(colM[i][1],tempArray[1][j]) 
                 ^ GFMul(colM[i][2],tempArray[2][j]) ^ GFMul(colM[i][3], tempArray[3][j]);
+            printf("%x",array[i][j]);
         }
+        printf("\n");
 }
 /**
  * 把4X4数组转回字符串
@@ -404,23 +415,25 @@ void aes(char *p, int plen, char *key){
         addRoundKey(pArray, 0);//一开始的轮密钥加
 
         for(int i = 1; i < 10; i++){//前9轮
-
+            printf("第%d轮\n", i);
+            printf("字节代换\n");
 
             subBytes(pArray);//字节代换
-
+            printf("行移位\n");
             shiftRows(pArray);//行移位
-
+            printf("列混合\n");
             mixColumns(pArray);//列混合
-
+            printf("轮密钥加\n");
             addRoundKey(pArray, i);
         }
 
         //第10轮
-
+        printf("第10轮\n");
+        printf("字节代换\n");
         subBytes(pArray);//字节代换
-
+        printf("行移位\n");
         shiftRows(pArray);//行移位
-
+        printf("轮密钥加\n");
         addRoundKey(pArray, 10);
 
         convertArrayToStr(pArray, p + k);
@@ -443,7 +456,9 @@ static void deSubBytes(int array[4][4]) {
     for(int i = 0; i < 4; i++)
         for(int j = 0; j < 4; j++){
             array[i][j] = getNumFromS1Box(array[i][j]);
+            printf("%x",array[i][j]);
         }
+    printf("\n");
 }
 /**
  * 把4个元素的数组循环右移step位
@@ -481,7 +496,10 @@ static void deShiftRows(int array[4][4]) {
         array[1][i] = rowTwo[i];
         array[2][i] = rowThree[i];
         array[3][i] = rowFour[i];
+        printf("%x%x%x",array[1][i],array[2][i],array[3][i]);
     }
+
+    printf("\n");
 }
 
 /**
@@ -508,7 +526,9 @@ static void deMixColumns(int array[4][4]) {
         for(int j = 0; j < 4; j++){
             array[i][j] = GFMul(deColM[i][0],tempArray[0][j]) ^ GFMul(deColM[i][1],tempArray[1][j]) 
                 ^ GFMul(deColM[i][2],tempArray[2][j]) ^ GFMul(deColM[i][3], tempArray[3][j]);
+            // printf("%x",array[i][j]);
         }
+    // printf("\n");
 }
 
 /**
@@ -518,7 +538,9 @@ static void addRoundTowArray(int aArray[4][4],int bArray[4][4]) {
     for(int i = 0; i < 4; i++)
         for(int j = 0; j < 4; j++){
             aArray[i][j] = aArray[i][j] ^ bArray[i][j];
+            printf("%x",aArray[i][j]);
         }
+        printf("\n");
 }
 
 /**
@@ -569,22 +591,24 @@ void deAes(char *c, int clen, char *key) {
         int wArray[4][4];
         for(int i = 9; i >= 1; i--) {
             char x = 10-i;
-
+            printf("第%d轮\n", x);
+            printf("逆字节变换\n");
             deSubBytes(cArray);
-
+            printf("逆行移位\n");
             deShiftRows(cArray);
-
+            printf("逆列混合\n");
             deMixColumns(cArray);
             getArrayFrom4W(i, wArray);
             deMixColumns(wArray);
 
             addRoundTowArray(cArray, wArray);
         }
-
+        printf("第10轮\n");
+        printf("逆字节变换\n");
         deSubBytes(cArray);
-
+        printf("逆行移位\n");
         deShiftRows(cArray);
-
+        printf("轮密钥加\n");
         addRoundKey(cArray, 0);
 
         convertArrayToStr(cArray, c + k);
