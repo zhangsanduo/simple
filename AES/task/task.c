@@ -360,7 +360,7 @@ void aes(char *p, int plen, char *key){
     }
 
     if(!checkKeyLen(keylen)) {
-        printf("密钥字符长度错误！长度必须为16、24和32。当前长度为%d\n",keylen);
+        printf("密钥字符长度错误！长度必须为16。当前长度为%d\n",keylen);
         exit(0);
     }
 
@@ -516,7 +516,7 @@ void deAes(char *c, int clen, char *key) {
     }
 
     if(!checkKeyLen(keylen)) {
-        printf("密钥字符长度错误！长度必须为16、24和32。当前长度为%d\n",keylen);
+        printf("密钥字符长度错误！长度必须为16。当前长度为%d\n",keylen);
         exit(0);
     }
 
