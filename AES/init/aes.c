@@ -633,7 +633,7 @@ void myAes(char *p, int plen, char *key){
 }
 
 void myDeAes(char *c, int clen, char *key){
-    printASCCI(c, clen);
+    // printASCCI(c, clen);
     deAes(c,clen,key);
     c[16]=0;
     printf("%s\n", c);
@@ -645,7 +645,7 @@ int HextoDs(char s[])//16进制转10进制
     m=strlen(s);//十六进制是按字符串传进来的，所以要获得他的长度
     for(i=0;i<m;i++)
     {
-        if(s[i]>='A'&&s[i]<='F')//十六进制还要判断他是不是在A-F或者a-f之间a=10。。
+        if(s[i]>='A'&&s[i]<='F')//十六进制还要判断他是不是在A-F或者a-f之间a=10。
          n=s[i]-'A'+10;
         else if(s[i]>='a'&&s[i]<='f')
          n=s[i]-'a'+10;

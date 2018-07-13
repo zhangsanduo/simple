@@ -551,3 +551,71 @@ void deAes(char *c, int clen, char *key) {
         convertArrayToStr(cArray, c + k);
     }
 }
+
+void printASCCI(char *str, int len) {
+    int c;
+    for(int i = 0; i < len; i++) {
+        c = (int)*str++;
+        c = c & 0x000000ff;
+        if(c<=15)printf("0");
+        printf("%x", c);
+    }
+    printf("\n");
+}
+
+void myAes(char *p, int plen, char *key){
+    aes(p,plen,key);
+    printASCCI(p, plen);
+}
+
+void myDeAes(char *c, int clen, char *key){
+    // printASCCI(c, clen);
+    deAes(c,clen,key);
+    c[16]=0;
+    printf("%s\n", c);
+}
+
+int HextoDs(char s[])//16进制转10进制
+{
+    int i,m,temp=0,n;
+    m=strlen(s);//十六进制是按字符串传进来的，所以要获得他的长度
+    for(i=0;i<m;i++)
+    {
+        if(s[i]>='A'&&s[i]<='F')//十六进制还要判断他是不是在A-F或者a-f之间a=10。
+         n=s[i]-'A'+10;
+        else if(s[i]>='a'&&s[i]<='f')
+         n=s[i]-'a'+10;
+         else n=s[i]-'0';
+        temp=temp*16+n;
+    }
+    return temp;
+}
+
+int hextest(char intput[],int len)//测试HEX格式
+{
+    int i,test=1;
+    for(i=0;i<len;i+=2)
+    {
+        if(isxdigit(intput[i])==0)
+        {
+            test=0;
+            break;
+        }
+    }
+    return test;
+}
+
+void fuchextods(char intput[],char output[],int len)
+{
+    int i;
+    char a[3],res;
+     for(i=0;i<len;i+=2)//2位为单位处理转换成ASCII后再输出为字符保存在output
+    {
+        a[0]=intput[i];
+        a[1]=intput[i+1];
+        a[2]=0;
+        res=HextoDs(a);
+        output[i/2]=res;
+    }
+    output[len]=0;
+}

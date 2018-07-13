@@ -20,7 +20,7 @@ int main(int argc, char const *argv[])
         strcpy(input,argv[2]);
         len=strlen(input);
         fuchextods(input,&output,len);
-        myDeAes(output,clen,argv[3]);
+        myDeAes(output,clen/2,argv[3]);
     }
     return 0;
 }
