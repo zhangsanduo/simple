@@ -1,15 +1,15 @@
 TESTCFLAGS=-g -Wall -Werror
 TESTLINKER=-lcunit
-TESTSOURCES=test.c sha1.c debug.c
-TESTBINARY=sha1test
+TESTSOURCES=main.c sha1.c debug.c
+TESTBINARY=sha1
 
-.FORCE: test
+.FORCE: main
 all:
-	make test
+	make main
 
 clean:
 	rm -rf *.o $(TESTBINARY)
 
-test:
+main:
 	$(CC) $(TESTCFLAGS) -o $(TESTBINARY) $(TESTSOURCES) $(TESTLINKER)
 	./$(TESTBINARY)	
