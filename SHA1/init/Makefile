@@ -1,4 +1,5 @@
-TESTCFLAGS=-g -Wall -Werror
+#TESTCFLAGS=-g -Wall -Werror
+TESTCFLAGS=-g -Wall
 TESTLINKER=-lcunit
 TESTSOURCES=main.c sha1.c debug.c
 TESTBINARY=sha1
