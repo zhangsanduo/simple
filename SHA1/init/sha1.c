@@ -287,43 +287,11 @@ void SHA1(
 {
     SHA1_CTX ctx;
     unsigned int ii;
-	unsigned int i;
-		
+
     SHA1Init(&ctx);
-	dsdl_info("init..............");
-	for (i=0; i<5; i++)
-		dsdl_info("H[%d]0x%x\n",i,ctx.state[i]);
-	
-	for (i=0;i<2;i++)
-		dsdl_info("count[%d]0x%x\n",i,ctx.count[i]);
-	
-	/*for (i=0; i<64; i++)
-		dsdl_info("buffer[%d]0x%x\n",i,ctx.buffer[i]);
-	*/
-	dsdl_info("init..........end....\n\n");
-
-
-	
     for (ii=0; ii<len; ii+=1)
-		dsdl_info("ii=%d\n",ii);
         SHA1Update(&ctx, (const unsigned char*)str + ii, 1);
-	
-	dsdl_info("new..............\n");
-	/*
-	for (i=0; i<5; i++)
-		printf("H[%d]0x%x\n",i,ctx.state[i]);
-	*/
-	for (i=0;i<2;i++)
-		printf("count[%d]0x%x\n",i,ctx.count[i]);
-	
-	for (i=0; i<64; i++)
-		//printf("buffer[%d]0x%x",i,ctx.buffer[i]);
-		printf("%x",ctx.buffer[i]);
-	
-	printf("new..........end....\n\n");
-	
     SHA1Final((unsigned char *)hash_out, &ctx);
-	
     hash_out[20] = '\0';
 }
 

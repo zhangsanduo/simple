@@ -12,4 +12,4 @@ clean:
 
 main:
 	$(CC) $(TESTCFLAGS) -o $(TESTBINARY) $(TESTSOURCES) $(TESTLINKER)
-	./$(TESTBINARY)	
+#	./$(TESTBINARY)	

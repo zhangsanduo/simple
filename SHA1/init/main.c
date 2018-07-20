@@ -31,27 +31,27 @@ int clean_suite(
   return 0;
 }
 
-/* Test Vector 1 */
-int main(
-    void
-)
+
+
+int main(int argc,char *argv[])
 {
+	if (argc < 2) {
+		printf("You must provide at least 1 parameter, where you specify the action.");
+		return 1;
+	}
 
   dsd_set_log_level(DSD_DEBUG|DSD_INFO);
-  int re;
-  char const string[] = "abc";
-  char const expect[] = "a9993e364706816aba3e25717850c26c9cd0d89d";
+  int re=1;
+  char  *string = argv[1];
+
   char result[21];
   char hexresult[41];
   size_t offset;
-/*  printf("start");
-  printf("result= %s", $expect);
-*/
+
 
   /* calculate hash */
   SHA1( result, string, strlen(string) );
 
-  dsdl_info("result=%s\n",result);
   /* format the hash for comparison */
   /*×Ö·û´®16½øÖÆ×ª»»*/
   for( offset = 0; offset < 20; offset++) {
@@ -60,10 +60,10 @@ int main(
   
   printf("result=%s\n",hexresult);
   
-  re = strncmp(hexresult, expect, 40); 
-  
-  return re;
 
+
+
+  return re;
 }
 
 
