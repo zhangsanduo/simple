@@ -1,8 +1,8 @@
 /*************************************************************************
-       > File Name: SM4test.c
-       > Author:NEWPLAN
-       > E-mail:newplan001@163.com
-       > Created Time: Thu Apr 13 23:55:50 2017
+       > File Name: run_sm4.c
+       > Author:yangkefeng
+       > E-mail:muyidixin2006@126.com
+       > Created Time: Thu July 13 23:55:50 2018
 ************************************************************************/
 
 #include <string.h>
