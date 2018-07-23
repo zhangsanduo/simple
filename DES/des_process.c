@@ -1,3 +1,13 @@
+/*
+ * Data Encryption Standard
+ * An approach to DES algorithm
+ * 
+ * By: Daniel Huertas Gonzalez
+ * Email: huertas.dani@gmail.com
+ * Version: 0.1
+ * 
+ * Based on the document FIPS PUB 46-3
+ */
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
@@ -139,6 +149,21 @@ static char iteration_shift[] = {
  /* 1   2   3   4   5   6   7   8   9  10  11  12  13  14  15  16 */
     1,  1,  2,  2,  2,  2,  2,  2,  1,  2,  2,  2,  2,  2,  2,  1
 };
+/*void Ten2B(uint64_t num,uint32_t l)
+{
+    l++;
+    if(num>1){
+        Ten2B(num/2,l);
+    }
+    if (l%4 == 0){
+        printf(" ");
+    }
+    if (l%8 == 0){
+        printf(" ");
+    }
+    printf("%lu",num%2);
+    
+}*/
 
 /*
  * The DES function
@@ -184,10 +209,14 @@ uint64_t des(uint64_t input, uint64_t key, char mode) {
         init_perm_res |= (input >> (64-IP[i])) & LB64_MASK;
         
     }
-    
+   // char c[64];
     L = (uint32_t) (init_perm_res >> 32) & L64_MASK;
     R = (uint32_t) init_perm_res & L64_MASK;
-        
+   // _itoa(L, c, 2);
+    //printf("%032s\n", c);
+    printf ("L: %08x\n", L);
+    printf ("R: %08x\n", R);
+
     /* initial key schedule calculation */
     for (i = 0; i < 56; i++) {
         
@@ -199,6 +228,11 @@ uint64_t des(uint64_t input, uint64_t key, char mode) {
     C = (uint32_t) ((permuted_choice_1 >> 28) & 0x000000000fffffff);
     D = (uint32_t) (permuted_choice_1 & 0x000000000fffffff);
     
+    printf ("C0: %x\n", C);
+    printf ("D0: %x\n", D);
+
+
+
     /* Calculation of the 16 keys */
     for (i = 0; i< 16; i++) {
         
@@ -208,7 +242,13 @@ uint64_t des(uint64_t input, uint64_t key, char mode) {
             
             C = 0x0fffffff & (C << 1) | 0x00000001 & (C >> 27);
             D = 0x0fffffff & (D << 1) | 0x00000001 & (D >> 27);
-            
+
+            if (i == 0)
+            {
+                printf ("C1: %x\n", C);
+                printf ("D1: %x\n", D);
+                
+            }
         }
         
         permuted_choice_2 = 0;
@@ -224,6 +264,8 @@ uint64_t des(uint64_t input, uint64_t key, char mode) {
         }
         
     }
+    printf ("k1: %lx\n", sub_key[0]);
+
     
     for (i = 0; i < 16; i++) {
         
@@ -235,6 +277,10 @@ uint64_t des(uint64_t input, uint64_t key, char mode) {
             s_input <<= 1;
             s_input |= (uint64_t) ((R >> (32-E[j])) & LB32_MASK);
             
+        }
+        if (i == 0)
+        {
+            printf ("s_input: %lx\n", s_input);
         }
         
         /* 
@@ -249,6 +295,10 @@ uint64_t des(uint64_t input, uint64_t key, char mode) {
             // encryption
             s_input = s_input ^ sub_key[i];
             
+        }
+         if (i == 0)
+        {
+            printf ("s_input_xor: %lx\n", s_input);
         }
         
         /* S-Box Tables */
@@ -266,6 +316,10 @@ uint64_t des(uint64_t input, uint64_t key, char mode) {
             s_output |= (uint32_t) (S[j][16*row + column] & 0x0f);
             
         }
+        if (i == 0)
+        {
+            printf ("s_output: %x\n", s_output);
+        }
         
         f_function_res = 0;
         
@@ -275,11 +329,21 @@ uint64_t des(uint64_t input, uint64_t key, char mode) {
             f_function_res |= (s_output >> (32 - P[j])) & LB32_MASK;
             
         }
+         if (i == 0)
+        {
+            printf ("f_function_res: %x\n", f_function_res);
+        }
         
         temp = R;
         R = L ^ f_function_res;
         L = temp;
-        
+        if (i == 0 || i ==15)
+        {
+            printf ("R1: %x\n", R);
+            printf ("L1: %x\n", L);
+
+        }
+
     }
     
     pre_output = (((uint64_t) R) << 32) | (uint64_t) L;
@@ -298,21 +362,69 @@ uint64_t des(uint64_t input, uint64_t key, char mode) {
 
 int main(int argc, char * argv[]) {
 
+    int i;
+    
     uint64_t input = strtoull(argv[3], NULL, 16);
+  //  uint64_t key = 0x0000000000000000;
     uint64_t key = strtoull(argv[2], NULL, 16);
     uint64_t result = input;
+
+  //  printf ("result: %016lx\n", input);
     
     if (strcmp(argv[1], ACTION_ENCRYPT) == 0){
             result = des(result, key, 'e');
-            printf ("%016lX\n", result);
+            printf ("E: %016lx\n", result);
     }
     else if (strcmp(argv[1], ACTION_DECRYPT) == 0) { 
             result = des(result, key, 'd');
-            printf ("%016lX\n", result);
+            printf ("D: %016lX\n", result);
     }else{
          printf("Input Error!!!"); 
     }
+    /*
+     * TESTING IMPLEMENTATION OF DES
+     * Ronald L. Rivest 
+     * X0:  9474B8E8C73BCA7D
+     * X16: 1B1A2DDB4C642438
+     *
+     * OUTPUT:
+     * E: 8da744e0c94e5e17
+     * D: 0cdb25e3ba3c6d79
+     * E: 4784c4ba5006081f
+     * D: 1cf1fc126f2ef842
+     * E: e4be250042098d13
+     * D: 7bfc5dc6adb5797c
+     * E: 1ab3b4d82082fb28
+     * D: c1576a14de707097
+     * E: 739b68cd2e26782a
+     * D: 2a59f0c464506edb
+     * E: a5c39d4251f0a81e
+     * D: 7239ac9a6107ddb1
+     * E: 070cac8590241233
+     * D: 78f87b6e3dfecf61
+     * E: 95ec2578c2c433f0
+     * D: 1b1a2ddb4c642438  <-- X16
+     */
+    /*for (i = 0; i < 16; i++) {
+        
+        if (i%2 == 0) {
+            
+            result = des(result, key1, 'e');
+            printf ("E: %016lx\n", result);
+            
+        } else {
+            
+            result = des(result, result, 'd');
+            printf ("D: %016lx\n", result);
+            
+        }
+    }*/
     
+    //result = des(input, key, 'e');
+    //printf ("E: %016llx\n", result);
+    
+    //result = des(result, key, 'd');
+    //printf ("D: %016llx\n", result);
     return 0;
     
 }
