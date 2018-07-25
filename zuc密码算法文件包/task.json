@@ -1,0 +1,15 @@
+    [{
+      "task_name":"zuc密码算法（细节函数）",
+      "algorithm_cate":"产生密钥算法",
+      "algorithm_type":"有密钥算法",
+      "plain_text":"",
+      "secret_key":"(00000000000000000000000000000000 00000000000000000000000000000000 2)，(ffffffffffffffffffffffffffffffff ffffffffffffffffffffffffffffffff 2)",
+      "cipher_text":"(27bede74 18082da),(657cfa0 7096398b)"
+    },{
+      "task_name":"zuc密码算法（算法流程）",
+       "algorithm_cate":"产生密钥算法",
+      "algorithm_type":"有密钥算法",
+      "plain_text":"",
+      "secret_key":"(00000000000000000000000000000000 00000000000000000000000000000000 2)，(ffffffffffffffffffffffffffffffff ffffffffffffffffffffffffffffffff 2)",
+      "cipher_text":"(27bede74 18082da),(657cfa0 7096398b)"
+    }]
