@@ -1,4 +1,4 @@
-Target: sm4.exe
+Target: sm4
 CC=gcc
 CFALAGS=
 objs=sm4.o run_sm4.o

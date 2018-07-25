@@ -1,4 +1,4 @@
-Target: sm4.exe
+Target: run_sm4
 CC=gcc
 CFALAGS=
 objs=sm4.o run_sm4.o
@@ -11,7 +11,7 @@ all:$(Target)
 	@echo " make done!"
 
 $(Target):$(objs)
-	$(CC) $< -o $^
+	$(CC)  $(cins) -o $^
 
 %.o:%.c $(head)
 	$(CC) -C $< -o $^
