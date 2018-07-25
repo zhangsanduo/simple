@@ -1,0 +1,15 @@
+[{
+  "task_name":"des加密算法实现",
+  "algorithm_cate":"加密算法",
+  "algorithm_type":"有密钥算法"
+  "plain_text":"明文参数，多个参数用,分隔",
+  "secret_key":"密钥参数，多个参数用,分隔",
+  "cipher_text":"密文参数，多个参数用,分隔"
+},{
+  "task_name":"des解密算法实现",
+  "algorithm_cate":"解密算法",
+  "algorithm_type":"有密钥算法"
+  "plain_text":"明文参数，多个参数用,分隔",
+  "secret_key":"密钥参数，多个参数用,分隔",
+  "cipher_text":"密文参数，多个参数用,分隔"
+}]
