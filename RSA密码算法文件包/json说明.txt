@@ -1,0 +1,10 @@
+position.json针对面板1按钮
+./multiple 位数  生成密钥
+positionde.json针对面板2加密按钮
+加密：./main  -e 公钥 明文
+positionen.json针对面板2解密按钮
+解密：./main  -d 私钥 密文
+rsa_1_1表示面板1 1号按钮
+task.json
+给出两组例子
+密钥为一组括号里面的两个数字为一个密钥对，密文里面一组括号里面为一组加密后的结果
