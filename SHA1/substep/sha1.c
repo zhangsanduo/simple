@@ -57,6 +57,7 @@ void SHA1Transform(
     const unsigned char buffer[64]
 )
 {
+    int i;
     uint32_t a, b, c, d, e;
 
     typedef union
@@ -77,12 +78,18 @@ void SHA1Transform(
      */
     CHAR64LONG16 *block = (const CHAR64LONG16 *) buffer;
 #endif
+    
     /* Copy context->state[] to working vars */
     a = state[0];
     b = state[1];
     c = state[2];
     d = state[3];
     e = state[4];
+	for (i=0; i<64; i++)
+	  printf("0x%x\n",buffer[i]);
+
+	for (i=0; i<5; i++)
+	  dsdl_info("0x%x\n",state[i]);
     /* 4 rounds of 20 operations each. Loop unrolled. */
     R0(a, b, c, d, e, 0);
     R0(e, a, b, c, d, 1);
@@ -164,12 +171,21 @@ void SHA1Transform(
     R4(d, e, a, b, c, 77);
     R4(c, d, e, a, b, 78);
     R4(b, c, d, e, a, 79);
+
+
+	dsdl_info("80 step\n");
+	for (i=0; i<5; i++)
+	  dsdl_info("0x%x\n",state[i]);
     /* Add the working vars back into context.state[] */
     state[0] += a;
     state[1] += b;
     state[2] += c;
     state[3] += d;
     state[4] += e;
+	dsdl_info("sum\n");
+	for (i=0; i<5; i++)
+	  dsdl_info("0x%x\n",state[i]);
+
     /* Wipe variables */
     a = b = c = d = e = 0;
 #ifdef SHA1HANDSOFF
@@ -213,6 +229,7 @@ void SHA1Update(
     j = (j >> 3) & 63;
     if ((j + len) > 63)
     {
+    	printf("1111111111111111111111\n");  
         memcpy(&context->buffer[j], data, (i = 64 - j));
         SHA1Transform(context->state, context->buffer);
         for (; i + 63 < len; i += 64)
@@ -266,6 +283,7 @@ void SHA1Final(
     SHA1Update(context, &c, 1);
     while ((context->count[0] & 504) != 448)
     {
+    	
         c = 0000;
         SHA1Update(context, &c, 1);
     }
@@ -290,29 +308,25 @@ void SHA1(
 	unsigned int i;
 		
     SHA1Init(&ctx);
-	dsdl_info("init..............");
+	dsdl_info("init..............\n");
 	for (i=0; i<5; i++)
 		dsdl_info("H[%d]0x%x\n",i,ctx.state[i]);
-	
 	for (i=0;i<2;i++)
 		dsdl_info("count[%d]0x%x\n",i,ctx.count[i]);
 	
-	/*for (i=0; i<64; i++)
-		dsdl_info("buffer[%d]0x%x\n",i,ctx.buffer[i]);
-	*/
-	dsdl_info("init..........end....\n\n");
-
+	for (i=0; i<64; i++)
+		printf("%x",ctx.buffer[i]);	
+	
+	dsdl_info("init..........end....\n\n\n");
 
 	
     for (ii=0; ii<len; ii+=1)
-		dsdl_info("ii=%d\n",ii);
         SHA1Update(&ctx, (const unsigned char*)str + ii, 1);
+
 	
-	dsdl_info("new..............\n");
-	/*
+	dsdl_info("new..............\n\n\n");
 	for (i=0; i<5; i++)
-		printf("H[%d]0x%x\n",i,ctx.state[i]);
-	*/
+		dsdl_info("H[%d]0x%x\n",i,ctx.state[i]);
 	for (i=0;i<2;i++)
 		printf("count[%d]0x%x\n",i,ctx.count[i]);
 	
@@ -320,10 +334,9 @@ void SHA1(
 		//printf("buffer[%d]0x%x",i,ctx.buffer[i]);
 		printf("%x",ctx.buffer[i]);
 	
-	printf("new..........end....\n\n");
+	printf("\n new..........end....\n\n");
 	
     SHA1Final((unsigned char *)hash_out, &ctx);
-	
     hash_out[20] = '\0';
 }
 
