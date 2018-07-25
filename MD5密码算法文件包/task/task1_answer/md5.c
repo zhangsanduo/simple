@@ -1,4 +1,4 @@
-﻿#include <stdio.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <stdint.h>
@@ -62,7 +62,7 @@ int HextoDs(char s[])//16进制转10进制
     }
     return temp;
 }
-int hextest(char intput[],int len)//测试HEX格式
+int hextest(char intput[],int len)
 {
     int i,test=1;
     for(i=0;i<len;i+=2)
@@ -75,7 +75,7 @@ int hextest(char intput[],int len)//测试HEX格式
     }
     return test;
 }
-void fuchextods(char intput[],char output[],int len)//exz转ASCII
+void fuchextods(char intput[],char output[],int len)
 {
     int i;
     char a[3],res;
@@ -112,60 +112,60 @@ void md5(const uint8_t *initial_msg, size_t initial_len, uint8_t *digest)//MD5�
      //添加长度mod（2 ^ 64）到消息
     for (new_len = initial_len + 1; new_len % (512/8) != 448/8; new_len++)
         ;
+
     msg = (uint8_t*)malloc(new_len + 8);
     memcpy(msg, initial_msg, initial_len);
     //消息填充
     msg[initial_len] = 0x80; //追加“1”位
     for (offset = initial_len + 1; offset < new_len; offset++)
         msg[offset] = 0; // 追加 "0" 位
+
     //在缓冲区末尾添加len位。（补足长度）
     to_bytes(initial_len*8, msg + new_len);
     // initial_len >> 29 == initial_len * 8 >> 32，但避免溢出
     to_bytes(initial_len>>29, msg + new_len + 4);
     //以连续的512位块处理消息：
     //对于每个512位的消息块：
-
-    //以下循环已扣空代码，请补充完整，提示请看注释
     for(offset=0; offset<new_len; offset += (512/8))
     {
         //将块分成16个32位字w [j]，0≤j≤15
         for (i = 0; i < 16; i++)
             w[i] = to_int32(msg + offset + i*4);
     //为这个块初始化散列值：
-        a =
-        b =
-        c =
-        d =
+        a = h0;
+        b = h1;
+        c = h2;
+        d = h3;
         // 主要循环:
         for(i = 0; i<64; i++)
         {
 
             if (i < 16)
             {
-                f = //基本逻辑函数F
-                g = //第一轮依次加1
+                f = (b & c) | ((~b) & d);//基本逻辑函数F
+                g = i;//第一轮依次加1
             }
             else if (i < 32)
             {
-                f = //基本逻辑函数G
-                g = //第二轮依次加5模16
+                f = (d & b) | ((~d) & c);//基本逻辑函数G
+                g = (5*i + 1) % 16;//第二轮依次加5模16
             }
              else if (i < 48)
              {
-                f =//基本逻辑函数H
-                g = //第三轮依次加3模16
+                f = b ^ c ^ d;//基本逻辑函数H
+                g = (3*i + 5) % 16;//第三轮依次加3模16
             }
             else
             {
-                f =//基本逻辑函数I
-                g = //第四轮依次加7模16
+                f = c ^ (b | (~d));//基本逻辑函数I
+                g = (7*i) % 16;//第四轮依次加7模16
             }
 
-            //temp = d;
-            d =
-            c =
-            b =
-            a =
+            temp = d;
+            d = c;
+            c = b;
+            b = b + LEFTROTATE ((a + f + k[i] + w[g]), r[i]);
+            a = temp;
 
         }
 
@@ -196,9 +196,7 @@ int main(int argc, char **argv)
     char output[256];//字符输出
     int i;
     //scanf("%s",&intput);
-     if(!strcmp(argv[1], "--hex")|| !strcmp(argv[1], "-h"))
-    {
-         strcpy(intput, argv[2]);
+         strcpy(intput, argv[1]);
          len=strlen(intput);
         if(len%2!=0)//判断是否为双数位
         {
@@ -217,14 +215,9 @@ int main(int argc, char **argv)
             return 0;
         }
 
-    }
-    if(!strcmp(argv[1], "--char")|| !strcmp(argv[1], "-c"))
-    {
-        msg=argv[2];
-    }
     len = strlen(msg);
      //基准
-     for (i = 0; i < 1000000; i++)
+     //for (i = 0; i < 1000000; i++)
             md5((uint8_t*)msg, len, result);//MD5计算
     // 输出结果
     for (i = 0; i < 16; i++)
