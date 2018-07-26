@@ -557,7 +557,6 @@ static void addRoundTowArray(int aArray[4][4],int bArray[4][4]) {
  */
 static void getArrayFrom4W(int i, int array[4][4]) {
     int index = i * 4;
-    int i;
     int colOne[4], colTwo[4], colThree[4], colFour[4];
     splitIntToArray(w[index], colOne);
     splitIntToArray(w[index + 1], colTwo);
