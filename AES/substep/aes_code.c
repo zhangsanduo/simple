@@ -92,7 +92,6 @@ static void convertToIntArray(char *str, int pa[4][4]) {
             pa[j][i] = getIntFromChar(str[k]);
             k++;
         }
-    printf("%x", k);
 }
 
 /**
@@ -229,6 +228,14 @@ static void extendKey(char *key) {
  * 轮密钥加
  */
 static void addRoundKey(int array[4][4], int round) {
+    if (round == 0) {
+        printf("aes_1_1_1_%d：", round);
+    } else if(1 <= round && round < 10) {
+        printf("aes_1_2_5_%d：", round);
+     } else {
+        printf("aes_1_4_12_%d：", round);
+     }
+
     int warray[4];
     int i, j;
     for(i = 0; i < 4; i++) {
@@ -246,7 +253,14 @@ static void addRoundKey(int array[4][4], int round) {
 /**
  * 字节代换
  */
-static void subBytes(int array[4][4]){
+static void subBytes(int array[4][4], int num){
+    if (num == 1) {
+        printf("aes_1_2_2_%d：", num);
+    } else if(2 <= num && num < 10) {
+         printf("aes_1_3_6_%d：", num);
+     } else {
+        printf("aes_1_4_10_%d：", num);
+     }
     int i, j;
     for(i = 0; i < 4; i++)
         for(j = 0; j < 4; j++){
@@ -259,7 +273,14 @@ static void subBytes(int array[4][4]){
 /**
  * 行移位
  */
-static void shiftRows(int array[4][4]) {
+static void shiftRows(int array[4][4], int num) {
+    if (num == 1) {
+        printf("aes_1_3_2_%d：", num);
+    } else if(2 <= num && num < 10) {
+         printf("aes_1_7_6_%d：", num);
+     } else {
+        printf("aes_1_11_10_%d：", num);
+     }
     int rowTwo[4], rowThree[4], rowFour[4];
     int i, j;
     //复制状态矩阵的第2,3,4行
@@ -363,7 +384,12 @@ static int GFMul(int n, int s) {
 /**
  * 列混合
  */
-static void mixColumns(int array[4][4]) {
+static void mixColumns(int array[4][4], int num) {
+    if (num == 1) {
+        printf("aes_1_4_2_%d：", num);
+    } else if(2 <= num && num < 10) {
+         printf("aes_1_8_6_%d：", num);
+     }
 
     int tempArray[4][4];
     int i, j;
@@ -418,25 +444,16 @@ void aes(char *p, int plen, char *key){
         addRoundKey(pArray, 0);//一开始的轮密钥加
 
         for(i = 1; i < 10; i++){//前9轮
-            printf("第%d轮\n", i);
-            printf("字节代换\n");
 
-            subBytes(pArray);//字节代换
-            printf("行移位\n");
-            shiftRows(pArray);//行移位
-            printf("列混合\n");
-            mixColumns(pArray);//列混合
-            printf("轮密钥加\n");
+            subBytes(pArray, i);//字节代换
+            shiftRows(pArray, i);//行移位
+            mixColumns(pArray, i);//列混合
             addRoundKey(pArray, i);
         }
 
         //第10轮
-        printf("第10轮\n");
-        printf("字节代换\n");
-        subBytes(pArray);//字节代换
-        printf("行移位\n");
-        shiftRows(pArray);//行移位
-        printf("轮密钥加\n");
+        subBytes(pArray, 10);//字节代换
+        shiftRows(pArray, 10);//行移位
         addRoundKey(pArray, 10);
 
         convertArrayToStr(pArray, p + k);
