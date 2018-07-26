@@ -29,7 +29,7 @@
 typedef struct {
     int mode;                   /*!<  encrypt/decrypt   */
     unsigned long sk[32];       /*!<  SM4 subkeys       */
-}sm4_context;
+} sm4_context;
 
 
 #ifdef __cplusplus
@@ -154,8 +154,8 @@ void sm4(unsigned char key[16],
  * \param input    buffer holding the input data
  * \param output   buffer holding the output data
  */
-void format_park_input(unsigned char *input,
-                       unsigned char *output);
+int format_park_input(char *input,
+                      unsigned char *output);
 
 #ifdef __cplusplus
 }
