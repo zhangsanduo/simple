@@ -165,6 +165,7 @@ static void sm4_setkey(unsigned long SK[32], unsigned char key[16]) {
     for (; i < 32; i++) {
         k[i + 4] = k[i] ^ (sm4CalciRK(k[i + 1] ^ k[i + 2] ^ k[i + 3] ^ CK[i]));
         SK[i] = k[i + 4];
+//        printf("rk(%02d) = 0x%08x,  X(%02d) = 0x%08x \n",i,k[i], i, SK[i+4] );
     }
 
 }
@@ -210,7 +211,7 @@ void sm4_setkey_enc(sm4_context *ctx, unsigned char key[16]) {
  */
 void sm4_setkey_dec(sm4_context *ctx, unsigned char key[16]) {
     int i;
-    ctx->mode = SM4_ENCRYPT;
+    ctx->mode = SM4_DECRYPT;
     sm4_setkey(ctx->sk, key);
     for (i = 0; i < 16; i++) {
         SWAP(ctx->sk[i], ctx->sk[31 - i]);
@@ -296,7 +297,6 @@ void sm4_crypt_ecb(sm4_context *ctx,
                    unsigned char *output) {
     while (length > 0) {
         sm4_one_round(ctx->sk, input, output);
-        printf("input: %s");
         input += 16;
         output += 16;
         length -= 16;

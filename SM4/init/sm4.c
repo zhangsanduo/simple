@@ -210,7 +210,7 @@ void sm4_setkey_enc(sm4_context *ctx, unsigned char key[16]) {
  */
 void sm4_setkey_dec(sm4_context *ctx, unsigned char key[16]) {
     int i;
-    ctx->mode = SM4_ENCRYPT;
+    ctx->mode = SM4_DECRYPT;
     sm4_setkey(ctx->sk, key);
     for (i = 0; i < 16; i++) {
         SWAP(ctx->sk[i], ctx->sk[31 - i]);
