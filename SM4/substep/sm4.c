@@ -217,44 +217,48 @@ void sm4_setkey_dec(sm4_context *ctx, unsigned char key[16]) {
     }
 }
 
-
 /*
  * SM4 key schedule (128-bit, decryption)
  */
-static int hex2ds(char s[])//16进制转10进制
+static int is_hex(char *input) {
+    int i, len, isHex = 1;
+    len = strlen(input);
+    for (i = 0; i < len; i += 1) {
+        if (isxdigit(input[i]) == 0) {
+            isHex = 0;
+            break;
+        }
+    }
+    return isHex;
+}
+
+/*
+* SM4 key schedule (128-bit, decryption)
+*/
+static int hex2ds(char *s)//16进制转10进制
 {
     int i, m, temp = 0, n;
     m = strlen(s);//十六进制是按字符串传进来的，所以要获得他的长度
     for (i = 0; i < m; i++) {
-        if (s[i] >= 'A' && s[i] <= 'F')//十六进制还要判断他是不是在A-F或者a-f之间a=10。。
+        if (s[i] >= 'A' && s[i] <= 'F')//十六进制还要判断他是不是在A-F或者a-f之间a=10。{
+        {
             n = s[i] - 'A' + 10;
-        else if (s[i] >= 'a' && s[i] <= 'f')
+        }
+        else if (s[i] >= 'a' && s[i] <= 'f') {
             n = s[i] - 'a' + 10;
-        else n = s[i] - '0';
+        }
+        else {
+            n = s[i] - '0';
+        }
         temp = temp * 16 + n;
     }
     return temp;
 }
 
 /*
- * SM4 key schedule (128-bit, decryption)
- */
-static int hex_test(char intput[], int len) {
-    int i, test = 1;
-    for (i = 0; i < len; i += 2) {
-        if (isxdigit(intput[i]) == 0) {
-            test = 0;
-            break;
-        }
-    }
-    return test;
-}
-
-
-/*
- * 2位为单位处理转换成ASCII后再输出为字符保存在output
- */
-static void char_hex2ds(unsigned char *input, unsigned char *output, int len) {
+* 2位为单位处理转换成ASCII后再输出为字符保存在output
+*/
+static void char2hex(unsigned char *input, unsigned char *output, int len) {
     int i;
     unsigned char a[3];
     unsigned char res;
@@ -268,28 +272,19 @@ static void char_hex2ds(unsigned char *input, unsigned char *output, int len) {
     output[len / 2] = 0;
 }
 
-void format_park_input(unsigned char *input, unsigned char *output) {
-    unsigned char *temp_input;//16进制输入
-    unsigned char *temp_output;//字符输出
-    unsigned char hexTest[4] = "0000";
+int format_park_input(char *input, unsigned char *output) {
     int len = 0;
-
-    strcpy(temp_input, input);
-    len = strlen(temp_input);
-    if (len % 2 != 0)//判断是否为双数位
+    len = strlen(input);
+    if (len != 32 || is_hex(input) == 0)//判断是否为双数位
     {
-        strcpy(temp_input, hexTest);
-        len = 4;
+        return 0;
     }
-    if (hex_test(temp_input, len) == 1) {
-        char_hex2ds(temp_input, temp_output, len);
-        output = (unsigned char *) (strlen(temp_output));
-        strcpy(output, temp_output);//将转好字符放入msg后进行加密
-    } else {
-        printf("16进制不符合要求");
+    else
+    {
+        char2hex(input, output, len);
+        return 1;
     }
 }
-
 
 /*
  * SM4-ECB block encryption/decryption
