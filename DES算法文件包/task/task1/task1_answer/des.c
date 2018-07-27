@@ -7,9 +7,7 @@
 #define LB64_MASK   0x0000000000000001
 #define L64_MASK    0x00000000ffffffff
 #define H64_MASK    0xffffffff00000000
-#define ACTION_ENCRYPT "-e"
-#define ACTION_DECRYPT "-d"  
-
+#define ACTION_GENERATE "-g"
 /* Initial Permutation Table */
 static char IP[] = {
     58, 50, 42, 34, 26, 18, 10,  2, 
@@ -140,49 +138,22 @@ static char iteration_shift[] = {
     1,  1,  2,  2,  2,  2,  2,  2,  1,  2,  2,  2,  2,  2,  2,  1
 };
 
-/*
- * 任务二：DES加密过程模拟
- * 要求：根据提示和所提供变量完成DES算法加密过程，完成最后密文的输出
- * 备注：代码中生成子密钥过程已经给出，学生只需编写处理明文过程。
- * 编写过程中有少许提示，可以根据提示进行，也可以自行编写过程，只需要最终密文值（inv_init_perm_res）相同即可
- *
- * @parameter
- * input: 64 bit message
- * key: 64 bit key for encryption/decryption
- * mode: 'e' = encryption; 'd' = decryption
- */
-uint64_t des(uint64_t input, uint64_t key, char mode) {
-    
+void generate_sub_keys(uint64_t key){
+
     int i, j;
-    
-    /* 8 bits */
-    char row, column;
-    
-    /* 28 bits */
+
+    /* 28 bits*/
     uint32_t C                  = 0;
     uint32_t D                  = 0;
-    
-    /* 32 bits */
-    uint32_t L                  = 0;
-    uint32_t R                  = 0;
-    uint32_t s_output           = 0;//s盒运算后结果
-    uint32_t f_function_res     = 0;//置换P运算后结果
-    uint32_t temp               = 0;
-    
+
     /* 48 bits */
-    uint64_t sub_key[16]        = {0};//子密钥
-    uint64_t s_input            = 0;//扩展置换E运算后结果
-    
+    uint64_t sub_key[16]        = {0};
+
     /* 56 bits */
     uint64_t permuted_choice_1  = 0;
     uint64_t permuted_choice_2  = 0;
     
-    /* 64 bits */
-    uint64_t init_perm_res      = 0;
-    uint64_t inv_init_perm_res  = 0;//密文值
-    uint64_t pre_output         = 0;//最终变换前拼接RL的结果
     
-    //此处为子密钥生成过程，已经给出，无需学生编写      
     /* initial key schedule calculation */
     for (i = 0; i < 56; i++) {
         
@@ -217,105 +188,16 @@ uint64_t des(uint64_t input, uint64_t key, char mode) {
             sub_key[i] |= (permuted_choice_2 >> (56-PC2[j])) & LB64_MASK;
             
         }
-        
+        printf("%lx\n", sub_key[i]);   
     }
-    
-    //此处为所编写区域
-    
-    /* initial permutation */
-    for (i = 0; i < 64; i++) {
-        
-        init_perm_res <<= 1;
-        init_perm_res //edit;
-        
-    }
-    
-    L = //edit
-    R = //edit
-    for (i = 0; i < 16; i++) {
-        
-        /* f(R,k) function */
-        s_input = 0;
-        
-        for (j = 0; j< 48; j++) {
-            
-            s_input <<= 1;
-            s_input //edit;
-            
-        }
-        
-        /* 
-         * Encryption/Decryption 
-         * XORing expanded Ri with Ki
-         */
-        if (mode == 'd') {
-            // decryption
-            s_input = //edit;
-            
-        } else {
-            // encryption
-            s_input = s_input ^ sub_key[i];
-            
-        }
-        
-        /* S-Box Tables */
-        for (j = 0; j < 8; j++) {
-            // 00 00 RCCC CR00 00 00 00 00 00 s_input
-            // 00 00 1000 0100 00 00 00 00 00 row mask
-            // 00 00 0111 1000 00 00 00 00 00 column mask
-            
-            row = (char) ((s_input & ( >> ) ) >> )//edit;
-            row = //edit;
-            
-            column = (char) ((s_input & ( >> ) ) >> ) //edit;
-            
-            s_output <<= 4;
-            s_output //edit;
-            
-        }
-        
-        f_function_res = 0;
-        
-        for (j = 0; j < 32; j++) {
-            
-            f_function_res <<= 1;
-            f_function_res //edit;
-            
-        }
-        
-        temp = R;
-        R = L ^ f_function_res;
-        L = temp;
-        
-    }
-    
-    pre_output = //edit
-        
-    /* inverse initial permutation */
-    for (i = 0; i < 64; i++) {
-        
-        inv_init_perm_res <<= 1;
-        inv_init_perm_res//edit;
-        
-    }
-    
-    return inv_init_perm_res;
-    
 }
 
 int main(int argc, char * argv[]) {
 
-    uint64_t input = strtoull(argv[3], NULL, 16);
     uint64_t key = strtoull(argv[2], NULL, 16);
-    uint64_t result = input;
     
-    if (strcmp(argv[1], ACTION_ENCRYPT) == 0){
-            result = des(result, key, 'e');
-            printf ("%016lX\n", result);
-    }
-    else if (strcmp(argv[1], ACTION_DECRYPT) == 0) { 
-            result = des(result, key, 'd');
-            printf ("%016lX\n", result);
+    if (strcmp(argv[1], ACTION_GENERATE) == 0){
+            generate_sub_keys(key);
     }else{
          printf("Input Error!!!"); 
     }

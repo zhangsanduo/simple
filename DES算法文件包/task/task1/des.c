@@ -7,9 +7,7 @@
 #define LB64_MASK   0x0000000000000001
 #define L64_MASK    0x00000000ffffffff
 #define H64_MASK    0xffffffff00000000
-#define ACTION_ENCRYPT "-e"
-#define ACTION_DECRYPT "-d"  
-
+#define ACTION_GENERATE "-g"
 /* Initial Permutation Table */
 static char IP[] = {
     58, 50, 42, 34, 26, 18, 10,  2, 
@@ -139,32 +137,37 @@ static char iteration_shift[] = {
  /* 1   2   3   4   5   6   7   8   9  10  11  12  13  14  15  16 */
     1,  1,  2,  2,  2,  2,  2,  2,  1,  2,  2,  2,  2,  2,  2,  1
 };
+/*
+    任务一：DES轮密钥生成
+    要求：按照提示根据所提供变量生成DES十六轮子密钥
+    备注：编写过程中有少许提示，可以根据提示进行，也可以自行编写过程，只需要最终密钥值（sub_key[16]）相同即可
+    函数参数key：十六进制初始密钥，长度为16个字符长度（即八个字节，六十四位数）
+ */
 void generate_sub_keys(uint64_t key){
 
     int i, j;
 
-    /* 28 bits */
+    /* 28位的新密钥左右两部分C和D */
     uint32_t C                  = 0;
     uint32_t D                  = 0;
 
-    /* 48 bits */
+    /* 48位的子密钥数组，长度为16 */
     uint64_t sub_key[16]        = {0};
 
-    /* 56 bits */
+    /* 56位的pc1变换后的新密钥 */
     uint64_t permuted_choice_1  = 0;
     uint64_t permuted_choice_2  = 0;
     
     
     /* initial key schedule calculation */
-    for (i = 0; i < 56; i++) {
-        
+    for (i = 0; i < 56; i++) {       
         permuted_choice_1 <<= 1;
-        permuted_choice_1 |= (key >> (64-PC1[i])) & LB64_MASK;
+        permuted_choice_1 //edit ;
 
     }
     
-    C = (uint32_t) ((permuted_choice_1 >> 28) & 0x000000000fffffff);
-    D = (uint32_t) (permuted_choice_1 & 0x000000000fffffff);
+    C = //edit
+    D = //edit
     
     /* Calculation of the 16 keys */
     for (i = 0; i< 16; i++) {
@@ -173,20 +176,20 @@ void generate_sub_keys(uint64_t key){
         // shifting Ci and Di
         for (j = 0; j < iteration_shift[i]; j++) {
             
-            C = 0x0fffffff & (C << 1) | 0x00000001 & (C >> 27);
-            D = 0x0fffffff & (D << 1) | 0x00000001 & (D >> 27);
+            C = //edit
+            D = //edit
             
         }
         
         permuted_choice_2 = 0;
-        permuted_choice_2 = (((uint64_t) C) << 28) | (uint64_t) D ;
+        permuted_choice_2 =  //edit;
         
         sub_key[i] = 0;
         
         for (j = 0; j < 48; j++) {
             
             sub_key[i] <<= 1;
-            sub_key[i] |= (permuted_choice_2 >> (56-PC2[j])) & LB64_MASK;
+            sub_key[i] //edit;
             
         }
         printf("%lx\n", sub_key[i]);   
@@ -195,9 +198,7 @@ void generate_sub_keys(uint64_t key){
 
 int main(int argc, char * argv[]) {
 
-    uint64_t input = strtoull(argv[3], NULL, 16);
     uint64_t key = strtoull(argv[2], NULL, 16);
-    uint64_t result = input;
     
     if (strcmp(argv[1], ACTION_ENCRYPT) == 0){
             generate_sub_keys(key);

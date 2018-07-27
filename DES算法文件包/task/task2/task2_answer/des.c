@@ -141,12 +141,7 @@ static char iteration_shift[] = {
 };
 
 /*
- * 任务二：DES加密过程模拟
- * 要求：根据提示和所提供变量完成DES算法加密过程，完成最后密文的输出
- * 备注：代码中生成子密钥过程已经给出，学生只需编写处理明文过程。
- * 编写过程中有少许提示，可以根据提示进行，也可以自行编写过程，只需要最终密文值（inv_init_perm_res）相同即可
- *
- * @parameter
+ * The DES function
  * input: 64 bit message
  * key: 64 bit key for encryption/decryption
  * mode: 'e' = encryption; 'd' = decryption
@@ -165,13 +160,13 @@ uint64_t des(uint64_t input, uint64_t key, char mode) {
     /* 32 bits */
     uint32_t L                  = 0;
     uint32_t R                  = 0;
-    uint32_t s_output           = 0;//s盒运算后结果
-    uint32_t f_function_res     = 0;//置换P运算后结果
+    uint32_t s_output           = 0;
+    uint32_t f_function_res     = 0;
     uint32_t temp               = 0;
     
     /* 48 bits */
-    uint64_t sub_key[16]        = {0};//子密钥
-    uint64_t s_input            = 0;//扩展置换E运算后结果
+    uint64_t sub_key[16]        = {0};
+    uint64_t s_input            = 0;
     
     /* 56 bits */
     uint64_t permuted_choice_1  = 0;
@@ -179,10 +174,20 @@ uint64_t des(uint64_t input, uint64_t key, char mode) {
     
     /* 64 bits */
     uint64_t init_perm_res      = 0;
-    uint64_t inv_init_perm_res  = 0;//密文值
-    uint64_t pre_output         = 0;//最终变换前拼接RL的结果
+    uint64_t inv_init_perm_res  = 0;
+    uint64_t pre_output         = 0;
     
-    //此处为子密钥生成过程，已经给出，无需学生编写      
+    /* initial permutation */
+    for (i = 0; i < 64; i++) {
+        
+        init_perm_res <<= 1;
+        init_perm_res |= (input >> (64-IP[i])) & LB64_MASK;
+        
+    }
+    
+    L = (uint32_t) (init_perm_res >> 32) & L64_MASK;
+    R = (uint32_t) init_perm_res & L64_MASK;
+        
     /* initial key schedule calculation */
     for (i = 0; i < 56; i++) {
         
@@ -220,18 +225,6 @@ uint64_t des(uint64_t input, uint64_t key, char mode) {
         
     }
     
-    //此处为所编写区域
-    
-    /* initial permutation */
-    for (i = 0; i < 64; i++) {
-        
-        init_perm_res <<= 1;
-        init_perm_res //edit;
-        
-    }
-    
-    L = //edit
-    R = //edit
     for (i = 0; i < 16; i++) {
         
         /* f(R,k) function */
@@ -240,7 +233,7 @@ uint64_t des(uint64_t input, uint64_t key, char mode) {
         for (j = 0; j< 48; j++) {
             
             s_input <<= 1;
-            s_input //edit;
+            s_input |= (uint64_t) ((R >> (32-E[j])) & LB32_MASK);
             
         }
         
@@ -250,7 +243,7 @@ uint64_t des(uint64_t input, uint64_t key, char mode) {
          */
         if (mode == 'd') {
             // decryption
-            s_input = //edit;
+            s_input = s_input ^ sub_key[15-i];
             
         } else {
             // encryption
@@ -264,13 +257,13 @@ uint64_t des(uint64_t input, uint64_t key, char mode) {
             // 00 00 1000 0100 00 00 00 00 00 row mask
             // 00 00 0111 1000 00 00 00 00 00 column mask
             
-            row = (char) ((s_input & ( >> ) ) >> )//edit;
-            row = //edit;
+            row = (char) ((s_input & (0x0000840000000000 >> 6*j)) >> 42-6*j);
+            row = (row >> 4) | row & 0x01;
             
-            column = (char) ((s_input & ( >> ) ) >> ) //edit;
+            column = (char) ((s_input & (0x0000780000000000 >> 6*j)) >> 43-6*j);
             
             s_output <<= 4;
-            s_output //edit;
+            s_output |= (uint32_t) (S[j][16*row + column] & 0x0f);
             
         }
         
@@ -279,7 +272,7 @@ uint64_t des(uint64_t input, uint64_t key, char mode) {
         for (j = 0; j < 32; j++) {
             
             f_function_res <<= 1;
-            f_function_res //edit;
+            f_function_res |= (s_output >> (32 - P[j])) & LB32_MASK;
             
         }
         
@@ -289,13 +282,13 @@ uint64_t des(uint64_t input, uint64_t key, char mode) {
         
     }
     
-    pre_output = //edit
+    pre_output = (((uint64_t) R) << 32) | (uint64_t) L;
         
     /* inverse initial permutation */
     for (i = 0; i < 64; i++) {
         
         inv_init_perm_res <<= 1;
-        inv_init_perm_res//edit;
+        inv_init_perm_res |= (pre_output >> (64-PI[i])) & LB64_MASK;
         
     }
     
