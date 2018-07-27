@@ -189,8 +189,8 @@ uint64_t des(uint64_t input, uint64_t key, char mode) {
     }
     L = (uint32_t) (init_perm_res >> 32) & L64_MASK;
     R = (uint32_t) init_perm_res & L64_MASK;
-    printf ("%08x\n", L);
-    printf ("%08x\n", R);
+    printf ("des_1_5_3_0:%08x\n", L);
+    printf ("des_1_5_4_0:%08x\n", R);
 
     /* initial key schedule calculation */
     for (i = 0; i < 56; i++) {
@@ -203,8 +203,8 @@ uint64_t des(uint64_t input, uint64_t key, char mode) {
     C = (uint32_t) ((permuted_choice_1 >> 28) & 0x000000000fffffff);
     D = (uint32_t) (permuted_choice_1 & 0x000000000fffffff);
     
-    printf ("%x\n", C);
-    printf ("%x\n", D);
+    printf ("des_1_1_5_0:%x\n", C);
+    printf ("des_1_1_6_0:%x\n", D);
 
 
 
@@ -220,8 +220,8 @@ uint64_t des(uint64_t input, uint64_t key, char mode) {
 
             if (i == 0)
             {
-                printf ("%x\n", C);
-                printf ("%x\n", D);
+                printf ("des_1_2_7_0:%x\n", C);
+                printf ("des_1_3_8_0:%x\n", D);
                 
             }
         }
@@ -239,7 +239,7 @@ uint64_t des(uint64_t input, uint64_t key, char mode) {
         }
         
     }
-    printf ("%lx\n", sub_key[0]);
+    printf ("des_1_4_9_0:%lx\n", sub_key[0]);
 
     
     for (i = 0; i < 16; i++) {
@@ -254,7 +254,7 @@ uint64_t des(uint64_t input, uint64_t key, char mode) {
             
         }
         if (i == 0)
-            printf ("%lx\n", s_input);
+            printf ("des_1_6_10_0:%lx\n", s_input);
         
         /* 
          * Encryption/Decryption 
@@ -270,7 +270,7 @@ uint64_t des(uint64_t input, uint64_t key, char mode) {
             
         }
          if (i == 0)
-            printf ("%lx\n", s_input);
+            printf ("des_1_7_11_0:%lx\n", s_input);
         
         /* S-Box Tables */
         for (j = 0; j < 8; j++) {
@@ -288,7 +288,7 @@ uint64_t des(uint64_t input, uint64_t key, char mode) {
             
         }
         if (i == 0)
-            printf ("%x\n", s_output);
+            printf ("des_1_8_12_0:%x\n", s_output);
         
         f_function_res = 0;
         
@@ -299,15 +299,21 @@ uint64_t des(uint64_t input, uint64_t key, char mode) {
             
         }
          if (i == 0)
-            printf ("%x\n", f_function_res);
+            printf ("des_1_9_13_0:%x\n", f_function_res);
         
         temp = R;
         R = L ^ f_function_res;
         L = temp;
-        if (i == 0 || i ==15)
+        if (i == 0)
         {
-            printf ("%x\n", R);
-            printf ("%x\n", L);
+            printf ("des_1_10_14_0:%x\n", R);
+            printf ("des_1_10_15_0:%x\n", L);
+
+        }
+        if (i ==15)
+        {
+            printf ("des_1_10_16_0:%x\n", R);
+            printf ("des_1_10_17_0:%x\n", L);
 
         }
 
@@ -336,7 +342,7 @@ int main(int argc, char * argv[]) {
     
     if (strcmp(argv[1], ACTION_ENCRYPT) == 0){
             result = des(result, key, 'e');
-            printf ("%016lx\n", result);
+            printf ("des_1_11_18_0:%016lx\n", result);
     }
     else if (strcmp(argv[1], ACTION_DECRYPT) == 0) { 
             result = des(result, key, 'd');
