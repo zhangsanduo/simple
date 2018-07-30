@@ -17,6 +17,7 @@ A million repetitions of "a"
 
 #define SHA1HANDSOFF
 
+#include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
 
@@ -82,6 +83,32 @@ A million repetitions of "a"
 		printf("%d 0x%x\n",i, w);printf("%d 0x%x\n",i, rol(v,5));printf("%d 0x%x\n",i, z);
 
 
+ 
+void hextobin(char *str)
+{ 
+	
+		int n; 
+ 		sscanf(str,"%x",&n);
+	
+        int a[8];
+        int i;
+        for (i = 0; i != 8; ++i)
+        {
+                a[8 - 1 - i] = n % 2;
+                n /= 2;
+        }
+        for (i = 0; i != 8; ++i)
+        {
+                printf("%d",a[i]);
+        }
+
+		printf("\n");
+}
+
+ 
+
+
+ 
 /* Hash a single 512-bit block. This is the core of the algorithm. */
 
 void SHA1Transform(
@@ -285,6 +312,7 @@ void SHA1Final(
 {
     unsigned i;
 
+
     unsigned char finalcount[8];
 
     unsigned char c;
@@ -315,19 +343,36 @@ void SHA1Final(
 	printf("\n");
 	for (i=0; i<64; i++)
 	{
-		
+
 		if(0==context->buffer[i])
 			break;
 		printf("%x",context->buffer[i]);	
 	}
 	printf("\n");
+	
     SHA1Update(context, &c, 1);
+
+
+	for (i=0; i<64;i++)
+		{
+ 
+/*		HEXTOBIN(&context->buffer[i]);*/
+		printf("%d 0x%x\n",i,context->buffer[i]);
+		char str[80];
+
+		sprintf(str, "0x%x",context->buffer[i]);
+		hextobin(str);
+		
+		}
     while ((context->count[0] & 504) != 448)
     {
     	
         c = 0000;
         SHA1Update(context, &c, 1);
     }
+
+	for (i=0; i<64; i++)
+		printf("%d %x\n",i,context->buffer[i]);
     SHA1Update(context, finalcount, 8); /* Should cause a SHA1Transform() */
     for (i = 0; i < 20; i++)
     {
@@ -355,8 +400,8 @@ void SHA1(
 	for (i=0;i<2;i++)
 		dsdl_info("count[%d]0x%x\n",i,ctx.count[i]);
 	
-	for (i=0; i<64; i++)
-		printf("%x",ctx.buffer[i]);	
+	/*for (i=0; i<64; i++)
+		printf("%d %x\n",i,ctx.buffer[i]);*/	
 	
 	dsdl_info("init..........end....\n\n\n");
 
@@ -371,9 +416,9 @@ void SHA1(
 	for (i=0;i<2;i++)
 		printf("count[%d]0x%x\n",i,ctx.count[i]);
 	
-	for (i=0; i<64; i++)
+	/*for (i=0; i<64; i++)
 		//printf("buffer[%d]0x%x",i,ctx.buffer[i]);
-		printf("%x",ctx.buffer[i]);
+		printf("%d  %x\n",i, ctx.buffer[i]);*/
 	
 	printf("\n new..........end....\n\n");
 	
