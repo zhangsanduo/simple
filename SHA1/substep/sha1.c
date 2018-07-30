@@ -51,10 +51,35 @@ A million repetitions of "a"
 	    printf("%d 0x%x\n",i, w);printf("%d 0x%x\n",i, rol(v,5));printf("%d 0x%x\n",i, z);
 	
 
-#define R1(v,w,x,y,z,i) z+=((w&(x^y))^y)+blk(i)+0x5A827999+rol(v,5);w=rol(w,30);
-#define R2(v,w,x,y,z,i) z+=(w^x^y)+blk(i)+0x6ED9EBA1+rol(v,5);w=rol(w,30);
-#define R3(v,w,x,y,z,i) z+=(((w|x)&y)|(w&x))+blk(i)+0x8F1BBCDC+rol(v,5);w=rol(w,30);
-#define R4(v,w,x,y,z,i) z+=(w^x^y)+blk(i)+0xCA62C1D6+rol(v,5);w=rol(w,30);
+#define R1(v,w,x,y,z,i) printf("%d 0x%x\n",i,(((w&(x^y))^y)+z));\
+		printf("%d 0x%x\n",i,(((w&(x^y))^y)+z+rol(v,5)));\
+		printf("%d 0x%x\n",i,(rol(block->l[(i+13)&15]^block->l[(i+8)&15] ^block->l[(i+2)&15]^block->l[i&15],1)));\
+		printf("%d 0x%x\n",i,(((w&(x^y))^y)+z+rol(v,5)+(rol(block->l[(i+13)&15]^block->l[(i+8)&15]^block->l[(i+2)&15]^block->l[i&15],1))));\
+		z+=((w&(x^y))^y)+blk(i)+0x5A827999+rol(v,5);printf("%d 0x%x\n",i,(((w&(x^y))^y)));w=rol(w,30);\
+		printf("%d 0x%x\n",i, w);printf("%d 0x%x\n",i, rol(v,5));printf("%d 0x%x\n",i, z);
+
+
+#define R2(v,w,x,y,z,i) printf("%d 0x%x\n",i,((w^x^y)+z+rol(v,5)));\
+		printf("%d 0x%x\n",i,((w^x^y)+z+rol(v,5)));\
+		printf("%d 0x%x\n",i,(rol(block->l[(i+13)&15]^block->l[(i+8)&15] ^block->l[(i+2)&15]^block->l[i&15],1)));\
+		printf("%d 0x%x\n",i,((w^x^y)+z+rol(v,5)+rol(block->l[(i+13)&15]^block->l[(i+8)&15] ^block->l[(i+2)&15]^block->l[i&15],1)));\
+		z+=(w^x^y)+blk(i)+0x6ED9EBA1+rol(v,5);printf("%d 0x%x\n",i,(((w&(x^y))^y)));w=rol(w,30);\
+		printf("%d 0x%x\n",i, w);printf("%d 0x%x\n",i, rol(v,5));printf("%d 0x%x\n",i, z);
+		
+#define R3(v,w,x,y,z,i)  printf("%d 0x%x\n",i,((w^x^y)+z+rol(v,5)));\
+		printf("%d 0x%x\n",i,((w^x^y)+z+rol(v,5)));\
+		printf("%d 0x%x\n",i,(rol(block->l[(i+13)&15]^block->l[(i+8)&15] ^block->l[(i+2)&15]^block->l[i&15],1)));\
+		printf("%d 0x%x\n",i,((w^x^y)+z+rol(v,5)+rol(block->l[(i+13)&15]^block->l[(i+8)&15] ^block->l[(i+2)&15]^block->l[i&15],1)));\
+		z+=(((w|x)&y)|(w&x))+blk(i)+0x8F1BBCDC+rol(v,5);printf("%d 0x%x\n",i,(((w&(x^y))^y)));w=rol(w,30);\
+		printf("%d 0x%x\n",i, w);printf("%d 0x%x\n",i, rol(v,5));printf("%d 0x%x\n",i, z);
+
+
+#define R4(v,w,x,y,z,i) printf("%d 0x%x\n",i,((w^x^y)+z+rol(v,5)));\
+		printf("%d 0x%x\n",i,((w^x^y)+z+rol(v,5)));\
+		printf("%d 0x%x\n",i,(rol(block->l[(i+13)&15]^block->l[(i+8)&15] ^block->l[(i+2)&15]^block->l[i&15],1)));\
+		printf("%d 0x%x\n",i,((w^x^y)+z+rol(v,5)+rol(block->l[(i+13)&15]^block->l[(i+8)&15] ^block->l[(i+2)&15]^block->l[i&15],1)));\
+		z+=(w^x^y)+blk(i)+0xCA62C1D6+rol(v,5);printf("%d 0x%x\n",i,(((w&(x^y))^y)));w=rol(w,30);\
+		printf("%d 0x%x\n",i, w);printf("%d 0x%x\n",i, rol(v,5));printf("%d 0x%x\n",i, z);
 
 
 /* Hash a single 512-bit block. This is the core of the algorithm. */
@@ -287,6 +312,15 @@ void SHA1Final(
     }
 #endif
     c = 0200;
+	printf("\n");
+	for (i=0; i<64; i++)
+	{
+		
+		if(0==context->buffer[i])
+			break;
+		printf("%x",context->buffer[i]);	
+	}
+	printf("\n");
     SHA1Update(context, &c, 1);
     while ((context->count[0] & 504) != 448)
     {
