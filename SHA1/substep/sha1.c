@@ -67,7 +67,7 @@ A million repetitions of "a"
 
 	
 
-#define R1(v,w,x,y,z,i) printf("sha1_3_1_1_%d:%x\n",i,v);\
+#define R1(v,w,x,y,z,i,str) printf("sha1_3_1_1_%d:%x\n",i,v);\
 		printf("sha1_3_1_2_%d:%x\n",i,w);\
 		printf("sha1_3_1_3_%d:%x\n",i,x);\
 		printf("sha1_3_1_4_%d:%x\n",i,y);\
@@ -79,6 +79,7 @@ A million repetitions of "a"
 		printf("sha1_3_5_1_%d:%x\n",i,(((w&(x^y))^y)+z));\
 		printf("sha1_3_6_1_%d:%x\n",i,(((w&(x^y))^y)+z+rol(v,5)));\
 		printf("sha1_2_4_%d_%d:%08x\n",i+1,i,(rol(block->l[(i+13)&15]^block->l[(i+8)&15] ^block->l[(i+2)&15]^block->l[i&15],1)));\
+		sprintf(str, "%s%08x", str,(rol(block->l[(i+13)&15]^block->l[(i+8)&15] ^block->l[(i+2)&15]^block->l[i&15],1)) );\
 		printf("sha1_3_7_1_%d:%x\n",i,(((w&(x^y))^y)+z+rol(v,5)+(rol(block->l[(i+13)&15]^block->l[(i+8)&15]^block->l[(i+2)&15]^block->l[i&15],1))));\
 		z+=((w&(x^y))^y)+blk(i)+0x5A827999+rol(v,5);\
 		printf("sha1_3_4_1_%d:%x\n",i,(((w&(x^y))^y)));w=rol(w,30);\
@@ -89,7 +90,7 @@ A million repetitions of "a"
 		
 
 
-#define R2(v,w,x,y,z,i) printf("sha1_3_1_1_%d:%x\n",i,v);\
+#define R2(v,w,x,y,z,i,str) printf("sha1_3_1_1_%d:%x\n",i,v);\
 		printf("sha1_3_1_2_%d:%x\n",i,w);\
 		printf("sha1_3_1_3_%d:%x\n",i,x);\
 		printf("sha1_3_1_4_%d:%x\n",i,y);\
@@ -101,6 +102,7 @@ A million repetitions of "a"
 		printf("sha1_3_5_1_%d:%x\n",i,((w^x^y)+z));\
 		printf("sha1_3_6_1_%d:%x\n",i,((w^x^y)+z+rol(v,5)));\
 		printf("sha1_2_4_%d_%d:%08x\n",i+1,i,(rol(block->l[(i+13)&15]^block->l[(i+8)&15] ^block->l[(i+2)&15]^block->l[i&15],1)));\
+		sprintf(str, "%s%08x", str,(rol(block->l[(i+13)&15]^block->l[(i+8)&15] ^block->l[(i+2)&15]^block->l[i&15],1)) );\
 		printf("sha1_3_7_1_%d:%x\n",i,((w^x^y)+z+rol(v,5)+rol(block->l[(i+13)&15]^block->l[(i+8)&15] ^block->l[(i+2)&15]^block->l[i&15],1)));\
 		z+=(w^x^y)+blk(i)+0x6ED9EBA1+rol(v,5);\
 		printf("sha1_3_4_1_%d:%x\n",i,((w^x^y)));w=rol(w,30);\
@@ -109,7 +111,7 @@ A million repetitions of "a"
 		printf("sha1_3_8_3_%d:%x\n",i, x);\
 		printf("sha1_3_8_4_%d:%x\n",i, y);
 		
-#define R3(v,w,x,y,z,i)  printf("sha1_3_1_1_%d:%x\n",i,v);\
+#define R3(v,w,x,y,z,i,str)  printf("sha1_3_1_1_%d:%x\n",i,v);\
 		printf("sha1_3_1_2_%d:%x\n",i,w);\
 		printf("sha1_3_1_3_%d:%x\n",i,x);\
 		printf("sha1_3_1_4_%d:%x\n",i,y);\
@@ -121,6 +123,7 @@ A million repetitions of "a"
 		printf("sha1_3_5_1_%d:%x\n",i,((((w|x)&y)|(w&x))+z));\
 		printf("sha1_3_6_1_%d:%x\n",i,((((w|x)&y)|(w&x))+z+rol(v,5)));\
 		printf("sha1_2_4_%d_1:%08x\n",i+1,(rol(block->l[(i+13)&15]^block->l[(i+8)&15] ^block->l[(i+2)&15]^block->l[i&15],1)));\
+		sprintf(str, "%s%08x", str,(rol(block->l[(i+13)&15]^block->l[(i+8)&15] ^block->l[(i+2)&15]^block->l[i&15],1)) );\
 		printf("sha1_3_7_1_%d:%x\n",i,((((w|x)&y)|(w&x))+z+rol(v,5)+rol(block->l[(i+13)&15]^block->l[(i+8)&15] ^block->l[(i+2)&15]^block->l[i&15],1)));\
 		z+=(((w|x)&y)|(w&x))+blk(i)+0x8F1BBCDC+rol(v,5);\
 		printf("sha1_3_4_1_%d:%x\n",i,(((w|x)&y)|(w&x)));w=rol(w,30);\
@@ -131,7 +134,7 @@ A million repetitions of "a"
 		
 
 
-#define R4(v,w,x,y,z,i)printf("sha1_3_1_1_%d:%x\n",i,v);\
+#define R4(v,w,x,y,z,i,str) printf("sha1_3_1_1_%d:%x\n",i,v);\
 		printf("sha1_3_1_2_%d:%x\n",i,w);\
 		printf("sha1_3_1_3_%d:%x\n",i,x);\
 		printf("sha1_3_1_4_%d:%x\n",i,y);\
@@ -143,6 +146,7 @@ A million repetitions of "a"
 		printf("sha1_3_5_1_%d:%x\n",i,((w^x^y)+z));\
 		printf("sha1_3_6_1_%d:%x\n",i,((w^x^y)+z+rol(v,5)));\
 		printf("sha1_2_4_%d_1:%08x\n",i+1,(rol(block->l[(i+13)&15]^block->l[(i+8)&15] ^block->l[(i+2)&15]^block->l[i&15],1)));\
+		sprintf(str, "%s%08x", str,(rol(block->l[(i+13)&15]^block->l[(i+8)&15] ^block->l[(i+2)&15]^block->l[i&15],1)) );\
 		printf("sha1_3_7_1_%d:%x\n",i,((w^x^y)+z+rol(v,5)+rol(block->l[(i+13)&15]^block->l[(i+8)&15] ^block->l[(i+2)&15]^block->l[i&15],1)));\
 		z+=(w^x^y)+blk(i)+0xCA62C1D6+rol(v,5);\
 		printf("sha1_3_4_1_%d:%x\n",i,((w^x^y)));w=rol(w,30);\
@@ -188,6 +192,7 @@ void SHA1Transform(
 {
 	int j;
     int i;
+	char str[4096];
     uint32_t a, b, c, d, e;
 
     typedef union
@@ -276,70 +281,70 @@ void SHA1Transform(
 		printf("%x",(rol(block->l[(i+13)&15]^block->l[(i+8)&15] ^block->l[(i+2)&15]^block->l[i&15],1)));
 	printf("\n");
 	*/
-    R1(e, a, b, c, d, 16);
-    R1(d, e, a, b, c, 17);
-    R1(c, d, e, a, b, 18);
-    R1(b, c, d, e, a, 19);
-    R2(a, b, c, d, e, 20);
-    R2(e, a, b, c, d, 21);
-    R2(d, e, a, b, c, 22);
-    R2(c, d, e, a, b, 23);
-    R2(b, c, d, e, a, 24);
-    R2(a, b, c, d, e, 25);
-    R2(e, a, b, c, d, 26);
-    R2(d, e, a, b, c, 27);
-    R2(c, d, e, a, b, 28);
-    R2(b, c, d, e, a, 29);
-    R2(a, b, c, d, e, 30);
-    R2(e, a, b, c, d, 31);
-    R2(d, e, a, b, c, 32);
-    R2(c, d, e, a, b, 33);
-    R2(b, c, d, e, a, 34);
-    R2(a, b, c, d, e, 35);
-    R2(e, a, b, c, d, 36);
-    R2(d, e, a, b, c, 37);
-    R2(c, d, e, a, b, 38);
-    R2(b, c, d, e, a, 39);
-    R3(a, b, c, d, e, 40);
-    R3(e, a, b, c, d, 41);
-    R3(d, e, a, b, c, 42);
-    R3(c, d, e, a, b, 43);
-    R3(b, c, d, e, a, 44);
-    R3(a, b, c, d, e, 45);
-    R3(e, a, b, c, d, 46);
-    R3(d, e, a, b, c, 47);
-    R3(c, d, e, a, b, 48);
-    R3(b, c, d, e, a, 49);
-    R3(a, b, c, d, e, 50);
-    R3(e, a, b, c, d, 51);
-    R3(d, e, a, b, c, 52);
-    R3(c, d, e, a, b, 53);
-    R3(b, c, d, e, a, 54);
-    R3(a, b, c, d, e, 55);
-    R3(e, a, b, c, d, 56);
-    R3(d, e, a, b, c, 57);
-    R3(c, d, e, a, b, 58);
-    R3(b, c, d, e, a, 59);
-    R4(a, b, c, d, e, 60);
-    R4(e, a, b, c, d, 61);
-    R4(d, e, a, b, c, 62);
-    R4(c, d, e, a, b, 63);
-    R4(b, c, d, e, a, 64);
-    R4(a, b, c, d, e, 65);
-    R4(e, a, b, c, d, 66);
-    R4(d, e, a, b, c, 67);
-    R4(c, d, e, a, b, 68);
-    R4(b, c, d, e, a, 69);
-    R4(a, b, c, d, e, 70);
-    R4(e, a, b, c, d, 71);
-    R4(d, e, a, b, c, 72);
-    R4(c, d, e, a, b, 73);
-    R4(b, c, d, e, a, 74);
-    R4(a, b, c, d, e, 75);
-    R4(e, a, b, c, d, 76);
-    R4(d, e, a, b, c, 77);
-    R4(c, d, e, a, b, 78);
-    R4(b, c, d, e, a, 79);
+    R1(e, a, b, c, d, 16,str);
+    R1(d, e, a, b, c, 17,str);
+    R1(c, d, e, a, b, 18,str);
+    R1(b, c, d, e, a, 19,str);
+    R2(a, b, c, d, e, 20,str);
+    R2(e, a, b, c, d, 21,str);
+    R2(d, e, a, b, c, 22,str);
+    R2(c, d, e, a, b, 23,str);
+    R2(b, c, d, e, a, 24,str);
+    R2(a, b, c, d, e, 25,str);
+    R2(e, a, b, c, d, 26,str);
+    R2(d, e, a, b, c, 27,str);
+    R2(c, d, e, a, b, 28,str);
+    R2(b, c, d, e, a, 29,str);
+    R2(a, b, c, d, e, 30,str);
+    R2(e, a, b, c, d, 31,str);
+    R2(d, e, a, b, c, 32,str);
+    R2(c, d, e, a, b, 33,str);
+    R2(b, c, d, e, a, 34,str);
+    R2(a, b, c, d, e, 35,str);
+    R2(e, a, b, c, d, 36,str);
+    R2(d, e, a, b, c, 37,str);
+    R2(c, d, e, a, b, 38,str);
+    R2(b, c, d, e, a, 39,str);
+    R3(a, b, c, d, e, 40,str);
+    R3(e, a, b, c, d, 41,str);
+    R3(d, e, a, b, c, 42,str);
+    R3(c, d, e, a, b, 43,str);
+    R3(b, c, d, e, a, 44,str);
+    R3(a, b, c, d, e, 45,str);
+    R3(e, a, b, c, d, 46,str);
+    R3(d, e, a, b, c, 47,str);
+    R3(c, d, e, a, b, 48,str);
+    R3(b, c, d, e, a, 49,str);
+    R3(a, b, c, d, e, 50,str);
+    R3(e, a, b, c, d, 51,str);
+    R3(d, e, a, b, c, 52,str);
+    R3(c, d, e, a, b, 53,str);
+    R3(b, c, d, e, a, 54,str);
+    R3(a, b, c, d, e, 55,str);
+    R3(e, a, b, c, d, 56,str);
+    R3(d, e, a, b, c, 57,str);
+    R3(c, d, e, a, b, 58,str);
+    R3(b, c, d, e, a, 59,str);
+    R4(a, b, c, d, e, 60,str);
+    R4(e, a, b, c, d, 61,str);
+    R4(d, e, a, b, c, 62,str);
+    R4(c, d, e, a, b, 63,str);
+    R4(b, c, d, e, a, 64,str);
+    R4(a, b, c, d, e, 65,str);
+    R4(e, a, b, c, d, 66,str);
+    R4(d, e, a, b, c, 67,str);
+    R4(c, d, e, a, b, 68,str);
+    R4(b, c, d, e, a, 69,str);
+    R4(a, b, c, d, e, 70,str);
+    R4(e, a, b, c, d, 71,str);
+    R4(d, e, a, b, c, 72,str);
+    R4(c, d, e, a, b, 73,str);
+    R4(b, c, d, e, a, 74,str);
+    R4(a, b, c, d, e, 75,str);
+    R4(e, a, b, c, d, 76,str);
+    R4(d, e, a, b, c, 77,str);
+    R4(c, d, e, a, b, 78,str);
+    R4(b, c, d, e, a, 79,str);
 
 
 	dsdl_info("80 step\n");
@@ -363,7 +368,7 @@ void SHA1Transform(
 	for (i=0,j=9; i<5; i++,j++)
 	  printf("sha1_2_%d_1_1:%x\n",j,state[i]);
 
-
+	printf("sha1_1_6_1_1:%s\n",str);
     /* Wipe variables */
     a = b = c = d = e = 0;
 #ifdef SHA1HANDSOFF
