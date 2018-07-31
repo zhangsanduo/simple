@@ -1,0 +1,38 @@
+[{
+  "task_name":"SM4加密算法ecb模式实现",
+  "algorithm_cate":"加解密算法",
+  "algorithm_type":"有密钥算法",
+  "plain_text":"11111111111111111111111111111111",
+  "secret_key":"22222222222222222222222222222222",
+  "cipher_text":"09f7815da24fefc4a6b8d09fe03d8dde"
+"
+},{
+  "task_name":"SM4加密算法cbc模式实现",
+  "algorithm_cate":"加解密算法",
+  "algorithm_type":"有密钥算法",
+  "plain_text":"11111111111111111111111111111111",
+  "secret_key":"22222222222222222222222222222222",
+  "cipher_text":"b4d0e9c6317e62260a7f3840390ab57a"
+},{
+  "task_name":"SM4加密算法cfb模式实现",
+  "algorithm_cate":"加解密算法",
+  "algorithm_type":"有密钥算法",
+  "plain_text":"11111111111111111111111111111111",
+  "secret_key":"22222222222222222222222222222222",
+  "cipher_text":"e58a2d3e6bf45787e63e1bafd69a822b"
+
+},{
+  "task_name":"SM4加密算法ofb模式实现",
+  "algorithm_cate":"加解密算法",
+  "algorithm_type":"有密钥算法",
+  "plain_text":"11111111111111111111111111111111",
+  "secret_key":"22222222222222222222222222222222",
+  "cipher_text":"e58a2d3e6bf45787e63e1bafd69a822b"
+},{
+  "task_name":"SM4加密算法ctr模式实现",
+  "algorithm_cate":"加解密算法",
+  "algorithm_type":"有密钥算法",
+  "plain_text":"11111111111111111111111111111111",
+  "secret_key":"22222222222222222222222222222222",
+  "cipher_text":"b4d0e9c6317e62260a7f3840390ab57a"
+}]
