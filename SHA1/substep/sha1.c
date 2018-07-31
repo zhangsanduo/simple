@@ -102,7 +102,7 @@ void hextobin(char *str)
                 printf("%d",a[i]);
         }
 
-		printf("\n");
+		/*printf("\n");*/
 }
 
  
@@ -116,6 +116,7 @@ void SHA1Transform(
     const unsigned char buffer[64]
 )
 {
+	int j;
     int i;
     uint32_t a, b, c, d, e;
 
@@ -144,11 +145,38 @@ void SHA1Transform(
     c = state[2];
     d = state[3];
     e = state[4];
+	/*Ìî³äµ½512Î»*/
+	printf("sha1_1_3_1_1:");
 	for (i=0; i<64; i++)
-	  printf("0x%x\n",buffer[i]);
+	  printf("%x",buffer[i]);
+	printf("\n");
 
-	for (i=0; i<5; i++)
-	  dsdl_info("0x%x\n",state[i]);
+	for (i=0,j=1; i<5; i++,j++)
+	  printf("sha1_1_4_%d_1:%x\n",j,state[i]);
+	  /*dsdl_info("0x%x\n",state[i]);*/
+	  
+	printf("sha1_1_5_1_1:");
+	for (i=0;i<4;i++)
+		printf("%08x",(rol(block->l[i],24)&0xFF00FF00)|(rol(block->l[i],8)&0x00FF00FF));  
+	printf("\n");	
+	
+	
+	printf("sha1_1_5_1_2:");
+	for (i=4;i<8;i++)
+		printf("%08x",(rol(block->l[i],24)&0xFF00FF00)|(rol(block->l[i],8)&0x00FF00FF));  
+	printf("\n");
+	
+	printf("sha1_1_5_1_3:");
+	for (i=8;i<12;i++)
+		printf("%08x",(rol(block->l[i],24)&0xFF00FF00)|(rol(block->l[i],8)&0x00FF00FF));  
+	printf("\n");	
+	
+	printf("sha1_1_5_1_4:");
+	for (i=12;i<16;i++)
+		printf("%08x",(rol(block->l[i],24)&0xFF00FF00)|(rol(block->l[i],8)&0x00FF00FF));  
+	printf("\n");	
+	
+	
     /* 4 rounds of 20 operations each. Loop unrolled. */
     R0(a, b, c, d, e, 0);
     R0(e, a, b, c, d, 1);
@@ -288,7 +316,6 @@ void SHA1Update(
     j = (j >> 3) & 63;
     if ((j + len) > 63)
     {
-    	printf("1111111111111111111111\n");  
         memcpy(&context->buffer[j], data, (i = 64 - j));
         SHA1Transform(context->state, context->buffer);
         for (; i + 63 < len; i += 64)
@@ -352,27 +379,33 @@ void SHA1Final(
 	
     SHA1Update(context, &c, 1);
 
-
+	printf("sha1_1_1_1_1:");
 	for (i=0; i<64;i++)
 		{
- 
-/*		HEXTOBIN(&context->buffer[i]);*/
-		printf("%d 0x%x\n",i,context->buffer[i]);
+/*¶þ½øÖÆÌî³ä1*/
 		char str[80];
-
+		char str1[80] = "0x80";
 		sprintf(str, "0x%x",context->buffer[i]);
 		hextobin(str);
-		
+		if(strcmp(str,str1)==0)
+
+			break;
 		}
+
+	printf("\n");
+	
     while ((context->count[0] & 504) != 448)
     {
-    	
         c = 0000;
         SHA1Update(context, &c, 1);
     }
-
-	for (i=0; i<64; i++)
-		printf("%d %x\n",i,context->buffer[i]);
+/*Ìî³ä0µ½448Î»*/
+	printf("sha1_1_2_1_1:");
+	for (i=0; i<56; i++)
+		printf("%x",context->buffer[i]);
+	
+	printf("\n");
+	
     SHA1Update(context, finalcount, 8); /* Should cause a SHA1Transform() */
     for (i = 0; i < 20; i++)
     {
