@@ -1,0 +1,17 @@
+[
+  {
+    "task_name":"des加密算法实现",
+    "algorithm_cate":"加密算法",
+    "algorithm_type":"有密钥算法",
+    "plain_text":"0123456789ABCDEF",
+    "secret_key":"133457799BBCDFF1",
+    "cipher_text":"85E813540F0AB405"
+  },
+  {
+    "task_name":"des轮秘钥生成实现",
+    "algorithm_cate":"加密算法",
+    "algorithm_type":"轮秘钥生成算法",
+    "plain_text":"133457799BBCDFF1",
+    "cipher_text":"1B02EFFC7072,79AED9DBC9E5,55FC8A42CF99,72ADD6DB351D,7CEC07EB53A8,63A53E507B2F,EC84B7F618BC,F78A3AC13BFB,E0DBEBEDE781,B1F347BA464F,215FD3DED386,7571F59467E9,97C5D1FABA41,5F43B7F2E73A,BF918D3D3F0A,CB3D8B0E17F5"
+  }
+]

@@ -1,0 +1,8 @@
+    [{
+      "task_name":"MD5加密算法",
+      "algorithm_cate":"加密算法",
+      "algorithm_type":"无密钥算法",
+      "plain_text":"3435，45467，abcd，5657890",
+      "secret_key":"",
+      "cipher_text":"6c8349cc7260ae62e3b1396831a8398f， D41D8CD98F00B204E9800998ECF8427E，7838496fd0586421bbb500bb6f472f13，D41D8CD98F00B204E9800998ECF8427E"
+    }]
