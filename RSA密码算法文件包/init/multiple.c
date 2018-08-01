@@ -737,10 +737,8 @@ void randExponent(bignum* phi, int n, bignum* result) {
 		if(e <= 2) e = 3;
 	}
 }
-/**
- * Main method to demostrate the system. Sets up primes p, q, and proceeds to encode and
- * decode the message given in "text.txt"
- */
+
+
 int chartoint(char *s)
 {
     int n=0;
@@ -758,44 +756,55 @@ int main(int argc, char **argv) {
 	bignum *phi = bignum_init(), *e = bignum_init(), *d = bignum_init();
 	bignum *bbytes = bignum_init(), *shift = bignum_init();
 	bignum *temp1 = bignum_init(), *temp2 = bignum_init();
-
+	int FACTOR_DIGITS;
+	long long int test=3000000000;
 	srand(time(NULL));
-	int FACTOR_DIGITS=chartoint(argv[1]);
+	while(n->length==0)
+	{
+	p = bignum_init();
+	q = bignum_init();
+	n = bignum_init();
+	FACTOR_DIGITS= rand()%(5 - 2 + 1) + 2;
 	randPrime(FACTOR_DIGITS, p);
-	printf("选择第一个大素数, p = ");
-	bignum_print(p);
-	printf("\n");
-
 	randPrime(FACTOR_DIGITS, q);
-	printf("选择第二个大素数, q = ");
-	bignum_print(q);
-        printf("\n");
-
 	bignum_multiply(n, p, q);
-	printf("计算n, n = pq = ");
-	bignum_print(n);
-	printf("\n");
-
+	if (n->length<2&&n->data[0]<test)
+	{
+		printf("选择一个大素数p:");
+	    bignum_print(p);
+	    printf("\n");
+		printf("选择第二个大素数q:");
+	    bignum_print(q);
+        printf("\n");
+		printf("计算n：");
+	    bignum_print(n);
+	    printf("\n");
+		break;
+	}
+		n->length=0;
+    }
 	bignum_subtract(temp1, p, &NUMS[1]);
 	bignum_subtract(temp2, q, &NUMS[1]);
 	bignum_multiply(phi, temp1, temp2); /* phi = (p - 1) * (q - 1) */
-	printf("计算phi, phi = ");
+	printf("计算phi：");
 	bignum_print(phi);
         printf("\n");
 	
 	randExponent(phi, EXPONENT_MAX, e);
-	printf("选择e, e = ");
+	printf("选择一个e:");
 	bignum_print(e);
-	printf("\n公钥： (");
+        printf("\n");
+	printf("公钥:(");
 	bignum_print(e);
 	printf(", ");
 	bignum_print(n);
 	printf(")\n");
 	
 	bignum_inverse(e, phi, d);
-	printf("计算d, d = ");
+	printf("计算d:");
 	bignum_print(d);
-	printf("\n私钥： (");
+        printf("\n");
+	printf("私钥:(");
 	bignum_print(d);
 	printf(", ");
 	bignum_print(n);

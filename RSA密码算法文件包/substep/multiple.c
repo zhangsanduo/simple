@@ -756,24 +756,33 @@ int main(int argc, char **argv) {
 	bignum *phi = bignum_init(), *e = bignum_init(), *d = bignum_init();
 	bignum *bbytes = bignum_init(), *shift = bignum_init();
 	bignum *temp1 = bignum_init(), *temp2 = bignum_init();
-
+	int FACTOR_DIGITS;
+	long long int test=3000000000;
 	srand(time(NULL));
-	int FACTOR_DIGITS=chartoint(argv[1]);
+	while(n->length==0)
+	{
+	p = bignum_init();
+	q = bignum_init();
+	n = bignum_init();
+	FACTOR_DIGITS= rand()%(5 - 2 + 1) + 2;
 	randPrime(FACTOR_DIGITS, p);
-	printf("rsa_1_8_1:");
-	bignum_print(p);
-	printf("\n");
-
 	randPrime(FACTOR_DIGITS, q);
-	printf("rsa_1_8_2:");
-	bignum_print(q);
-        printf("\n");
-
 	bignum_multiply(n, p, q);
-	printf("rsa_1_9_3:");
-	bignum_print(n);
-	printf("\n");
-
+	if (n->length<2&&n->data[0]<test)
+	{
+		printf("rsa_1_8_1:");
+	    bignum_print(p);
+	    printf("\n");
+		printf("rsa_1_8_2:");
+	    bignum_print(q);
+        printf("\n");
+		printf("rsa_1_9_3:");
+	    bignum_print(n);
+	    printf("\n");
+		break;
+	}
+		n->length=0;
+    }
 	bignum_subtract(temp1, p, &NUMS[1]);
 	bignum_subtract(temp2, q, &NUMS[1]);
 	bignum_multiply(phi, temp1, temp2); /* phi = (p - 1) * (q - 1) */
