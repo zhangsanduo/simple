@@ -47,7 +47,7 @@ A million repetitions of "a"
 #define R1(v,w,x,y,z,i) z+=((w&(x^y))^y)+blk(i)+0x5A827999+rol(v,5);w=rol(w,30);
 #define R2(v,w,x,y,z,i) z+=(w^x^y)+blk(i)+0x6ED9EBA1+rol(v,5);w=rol(w,30);
 #define R3(v,w,x,y,z,i) z+=(((w|x)&y)|(w&x))+blk(i)+0x8F1BBCDC+rol(v,5);w=rol(w,30);
-#define R4(v,w,x,y,z,i) z+=(w^x^y)+blk(i)+0xCA62C1D6+rol(v,5);w=rol(w,30);
+#define R4(v,w,x,y,z,i) 
 
 
 /* Hash a single 512-bit block. This is the core of the algorithm. */
@@ -113,11 +113,11 @@ void SHA1Transform(
     R2(e, a, b, c, d, 26);
     R2(d, e, a, b, c, 27);
     R2(c, d, e, a, b, 28);
-    R2(b, c, d, e, a, 29);
-    R2(a, b, c, d, e, 30);
-    R2(e, a, b, c, d, 31);
-    R2(d, e, a, b, c, 32);
-    R2(c, d, e, a, b, 33);
+    R2();
+    R2();
+    R2();
+    R2();
+    R2();
     R2(b, c, d, e, a, 34);
     R2(a, b, c, d, e, 35);
     R2(e, a, b, c, d, 36);
@@ -185,11 +185,11 @@ void SHA1Init(
 )
 {
     /* SHA1 initialization constants */
-    context->state[0] = 0x67452301;
-    context->state[1] = 0xEFCDAB89;
-    context->state[2] = 0x98BADCFE;
-    context->state[3] = 0x10325476;
-    context->state[4] = 0xC3D2E1F0;
+    context->state[0] = 
+    context->state[1] = 
+    context->state[2] = 
+    context->state[3] = 
+    context->state[4] = 
     context->count[0] = context->count[1] = 0;
 }
 
