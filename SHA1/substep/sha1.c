@@ -96,7 +96,7 @@ A million repetitions of "a"
 		printf("sha1_3_1_4_%d:%x\n",i,y);\
 		printf("sha1_3_1_5_%d:%x\n",i,z);\
 		printf("sha1_3_1_6_%d:%x\n",i,(rol(block->l[(i+13)&15]^block->l[(i+8)&15] ^block->l[(i+2)&15]^block->l[i&15],1)));\
-		printf("sha1_3_1_7_%d:0x6ED9EBA1\n",i);\
+		printf("sha1_3_1_7_%d:6ED9EBA1\n",i);\
 		printf("sha1_3_2_1_%d:%x\n",i,rol(v,5));\
 	    printf("sha1_3_3_1_%d:%x\n",i,rol(w,30));\
 		printf("sha1_3_5_1_%d:%x\n",i,((w^x^y)+z));\
@@ -117,7 +117,7 @@ A million repetitions of "a"
 		printf("sha1_3_1_4_%d:%x\n",i,y);\
 		printf("sha1_3_1_5_%d:%x\n",i,z);\
 		printf("sha1_3_1_6_%d:%x\n",i,(rol(block->l[(i+13)&15]^block->l[(i+8)&15] ^block->l[(i+2)&15]^block->l[i&15],1)));\
-		printf("sha1_3_1_7_%d:0x8F1BBCDC\n",i);\
+		printf("sha1_3_1_7_%d:8F1BBCDC\n",i);\
 		printf("sha1_3_2_1_%d:%x\n",i,rol(v,5));\
 	    printf("sha1_3_3_1_%d:%x\n",i,rol(w,30));\
 		printf("sha1_3_5_1_%d:%x\n",i,((((w|x)&y)|(w&x))+z));\
@@ -140,7 +140,7 @@ A million repetitions of "a"
 		printf("sha1_3_1_4_%d:%x\n",i,y);\
 		printf("sha1_3_1_5_%d:%x\n",i,z);\
 		printf("sha1_3_1_6_%d:%x\n",i,(rol(block->l[(i+13)&15]^block->l[(i+8)&15] ^block->l[(i+2)&15]^block->l[i&15],1)));\
-		printf("sha1_3_1_7_%d:0xCA62C1D6\n",i);\
+		printf("sha1_3_1_7_%d:CA62C1D6\n",i);\
 		printf("sha1_3_2_1_%d:%x\n",i,rol(v,5));\
 	    printf("sha1_3_3_1_%d:%x\n",i,rol(w,30));\
 		printf("sha1_3_5_1_%d:%x\n",i,((w^x^y)+z));\
