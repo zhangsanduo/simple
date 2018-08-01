@@ -221,40 +221,40 @@ void SHA1Transform(
     d = state[3];
     e = state[4];
 	/*Ìî³äµ½512Î»*/
-	printf("sha1_1_3_1_1:");
+	printf("sha1_1_7_8_1:");
 	for (i=0; i<64; i++)
 	  printf("%x",buffer[i]);
 	printf("\n");
 
-	for (i=0,j=1; i<5; i++,j++)
-	  printf("sha1_1_4_%d_1:%x\n",j,state[i]);
+	for (i=0,j=10; i<5; i++,j++)
+	  printf("sha1_1_9_%d_1:%x\n",j,state[i]);
 	  /*dsdl_info("0x%x\n",state[i]);*/
 	  
-	printf("sha1_1_5_1_1:");
+	printf("sha1_1_15_16_1:");
 	for (i=0;i<4;i++)
 		printf("%08x",(rol(block->l[i],24)&0xFF00FF00)|(rol(block->l[i],8)&0x00FF00FF));  
 	printf("\n");	
 	
 	
-	printf("sha1_1_5_2_1:");
+	printf("sha1_1_15_17_1:");
 	for (i=4;i<8;i++)
 		printf("%08x",(rol(block->l[i],24)&0xFF00FF00)|(rol(block->l[i],8)&0x00FF00FF));  
 	printf("\n");
 	
-	printf("sha1_1_5_3_1:");
+	printf("sha1_1_15_18_1:");
 	for (i=8;i<12;i++)
 		printf("%08x",(rol(block->l[i],24)&0xFF00FF00)|(rol(block->l[i],8)&0x00FF00FF));  
 	printf("\n");	
 	
-	printf("sha1_1_5_4_1:");
+	printf("sha1_1_15_19_1:");
 	for (i=12;i<16;i++)
 		printf("%08x",(rol(block->l[i],24)&0xFF00FF00)|(rol(block->l[i],8)&0x00FF00FF));  
 	printf("\n");	
 
 
 
-	for (i=0,j=1; i<5; i++,j++)
-	  printf("sha1_1_7_%d_1:%x\n",j,state[i]);
+	for (i=0,j=23; i<5; i++,j++)
+	  printf("sha1_1_22_%d_1:%x\n",j,state[i]);
 	  /*dsdl_info("0x%x\n",state[i]);*/
 	
 	
@@ -348,11 +348,11 @@ void SHA1Transform(
 
 
 	dsdl_info("80 step\n");
-	printf("sha1_1_8_1_1:%x\n",a);
-	printf("sha1_1_8_2_1:%x\n",b);
-	printf("sha1_1_8_3_1:%x\n",c);
-	printf("sha1_1_8_4_1:%x\n",d);
-	printf("sha1_1_8_5_1:%x\n",e);
+	printf("sha1_1_28_29_1:%x\n",a);
+	printf("sha1_1_28_30_1:%x\n",b);
+	printf("sha1_1_28_31_1:%x\n",c);
+	printf("sha1_1_28_32_1:%x\n",d);
+	printf("sha1_1_28_33_1:%x\n",e);
 
     /* Add the working vars back into context.state[] */
     state[0] += a;
@@ -362,13 +362,13 @@ void SHA1Transform(
     state[4] += e;
 	dsdl_info("sum\n");
 
-	for (i=0,j=1; i<5; i++,j++)
-	  printf("sha1_1_9_%d_1:%x\n",j,state[i]);
+	for (i=0,j=35; i<5; i++,j++)
+	  printf("sha1_1_34_%d_1:%x\n",j,state[i]);
 
 	for (i=0,j=9; i<5; i++,j++)
 	  printf("sha1_2_%d_1_1:%x\n",j,state[i]);
 
-	printf("sha1_1_6_1_1:%s\n",str);
+	printf("sha1_1_20_21_1:%s\n",str);
     /* Wipe variables */
     a = b = c = d = e = 0;
 #ifdef SHA1HANDSOFF
@@ -475,7 +475,7 @@ void SHA1Final(
 	
     SHA1Update(context, &c, 1);
 
-	printf("sha1_1_1_1_1:");
+	printf("sha1_1_3_4_1:");
 	for (i=0; i<64;i++)
 		{
 /*¶þ½øÖÆÌî³ä1*/
@@ -496,7 +496,7 @@ void SHA1Final(
         SHA1Update(context, &c, 1);
     }
 /*Ìî³ä0µ½448Î»*/
-	printf("sha1_1_2_1_1:");
+	printf("sha1_1_5_6_1:");
 	for (i=0; i<56; i++)
 		printf("%x",context->buffer[i]);
 	
