@@ -1,0 +1,8 @@
+    [{
+      "task_name":"SHA1加密算法",
+      "algorithm_cate":"加密算法",
+      "algorithm_type":"无密钥算法",
+      "plain_text":"3435，0000，abcd",
+      "secret_key":"",
+      "cipher_text":"fb644351560d8296fe6da332236b1f8d61b2828a,da39a3ee5e6b4b0d3255bfef95601890afd80709,32825eb98de842ee3e4df005a07b7d65522a46a0"
+    }]
