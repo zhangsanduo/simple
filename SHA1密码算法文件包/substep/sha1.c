@@ -44,116 +44,116 @@ A million repetitions of "a"
     ^block->l[(i+2)&15]^block->l[i&15],1))
 
 /* (R0+R1), R2, R3, R4 are the different operations used in SHA1 */
-#define R0(v,w,x,y,z,i) printf("sha1_3_1_1_%d:%x\n",i,v);\
-		printf("sha1_3_1_2_%d:%x\n",i,w);\
-		printf("sha1_3_1_3_%d:%x\n",i,x);\
-		printf("sha1_3_1_4_%d:%x\n",i,y);\
-		printf("sha1_3_1_5_%d:%x\n",i,z);\
-		printf("sha1_3_1_6_%d:%x\n",i,(rol(block->l[i],24)&0xFF00FF00)|(rol(block->l[i],8)&0x00FF00FF));\
-		printf("sha1_3_1_7_%d:5A827999\n",i);\
-		printf("sha1_3_2_1_%d:%x\n",i,rol(v,5));\
-	    printf("sha1_3_3_1_%d:%x\n",i,rol(w,30));\
-		printf("sha1_3_5_1_%d:%x\n",i,(((w&(x^y))^y)+z));\
-		printf("sha1_3_6_1_%d:%x\n",i,(((w&(x^y))^y)+z+rol(v,5)));\
-		printf("sha1_2_8_%d_%d:%08x\n",i+1,i,(rol(block->l[i],24)&0xFF00FF00)|(rol(block->l[i],8)&0x00FF00FF));\
-		printf("sha1_3_7_1_%d:%x\n",i,(((w&(x^y))^y)+z+rol(v,5)+((rol(block->l[i],24)&0xFF00FF00)|(rol(block->l[i],8)&0x00FF00FF))));\
+#define R0(v,w,x,y,z,i) printf("sha1_3_1_2_%d:%x\n",i+1,v);\
+		printf("sha1_3_1_3_%d:%x\n",i+1,w);\
+		printf("sha1_3_1_4_%d:%x\n",i+1,x);\
+		printf("sha1_3_1_5_%d:%x\n",i+1,y);\
+		printf("sha1_3_1_6_%d:%x\n",i+1,z);\
+		printf("sha1_3_1_14_%d:%x\n",i+1,(rol(block->l[i],24)&0xFF00FF00)|(rol(block->l[i],8)&0x00FF00FF));\
+		printf("sha1_3_1_16_%d:5A827999\n",i+1);\
+		printf("sha1_3_7_11_%d:%x\n",i+1,rol(v,5));\
+	    printf("sha1_3_8_20_%d:%x\n",i+1,rol(w,30));\
+		printf("sha1_3_25_12_%d:%x\n",i+1,(((w&(x^y))^y)+z));\
+		printf("sha1_3_26_13_%d:%x\n",i+1,(((w&(x^y))^y)+z+rol(v,5)));\
+		printf("sha1_2_2_%d_%d:%08x\n",i+1,i,(rol(block->l[i],24)&0xFF00FF00)|(rol(block->l[i],8)&0x00FF00FF));\
+		printf("sha1_3_27_15_%d:%x\n",i+1,(((w&(x^y))^y)+z+rol(v,5)+((rol(block->l[i],24)&0xFF00FF00)|(rol(block->l[i],8)&0x00FF00FF))));\
 	    z+=((w&(x^y))^y)+blk0(i)+0x5A827999+rol(v,5);\
-		printf("sha1_3_4_1_%d:%x\n",i,(((w&(x^y))^y)));w=rol(w,30);\
-		printf("sha1_3_8_1_%d:%x\n",i, z);\
-		printf("sha1_3_8_2_%d:%x\n",i, v);\
-		printf("sha1_3_8_3_%d:%x\n",i, x);\
-		printf("sha1_3_8_4_%d:%x\n",i, y);
+		printf("sha1_3_9_10_%d:%x\n",i+1,(((w&(x^y))^y)));w=rol(w,30);\
+		printf("sha1_3_28_18_%d:%x\n",i+1, z);\
+		printf("sha1_3_28_19_%d:%x\n",i+1, v);\
+		printf("sha1_3_28_21_%d:%x\n",i+1, x);\
+		printf("sha1_3_28_22_%d:%x\n",i+1, y);
 
 
 	
 
-#define R1(v,w,x,y,z,i,str) printf("sha1_3_1_1_%d:%x\n",i,v);\
-		printf("sha1_3_1_2_%d:%x\n",i,w);\
-		printf("sha1_3_1_3_%d:%x\n",i,x);\
-		printf("sha1_3_1_4_%d:%x\n",i,y);\
-		printf("sha1_3_1_5_%d:%x\n",i,z);\
-		printf("sha1_3_1_6_%d:%x\n",i,(rol(block->l[(i+13)&15]^block->l[(i+8)&15] ^block->l[(i+2)&15]^block->l[i&15],1)));\
-		printf("sha1_3_1_7_%d:5A827999\n",i);\
-		printf("sha1_3_2_1_%d:%x\n",i,rol(v,5));\
-	    printf("sha1_3_3_1_%d:%x\n",i,rol(w,30));\
-		printf("sha1_3_5_1_%d:%x\n",i,(((w&(x^y))^y)+z));\
-		printf("sha1_3_6_1_%d:%x\n",i,(((w&(x^y))^y)+z+rol(v,5)));\
+#define R1(v,w,x,y,z,i,str) printf("sha1_3_1_2_%d:%x\n",i+1,v);\
+		printf("sha1_3_1_3_%d:%x\n",i+1,w);\
+		printf("sha1_3_1_4_%d:%x\n",i+1,x);\
+		printf("sha1_3_1_5_%d:%x\n",i+1,y);\
+		printf("sha1_3_1_6_%d:%x\n",i+1,z);\
+		printf("sha1_3_1_14_%d:%x\n",i+1,(rol(block->l[(i+13)&15]^block->l[(i+8)&15] ^block->l[(i+2)&15]^block->l[i&15],1)));\
+		printf("sha1_3_1_16_%d:5A827999\n",i);\
+		printf("sha1_3_7_11_%d:%x\n",i+1,rol(v,5));\
+	    printf("sha1_3_8_20_%d:%x\n",i+1,rol(w,30));\
+		printf("sha1_3_25_12_%d:%x\n",i+1,(((w&(x^y))^y)+z));\
+		printf("sha1_3_26_13_%d:%x\n",i+1,(((w&(x^y))^y)+z+rol(v,5)));\
 		printf("sha1_2_8_%d_%d:%08x\n",i+1,i,(rol(block->l[(i+13)&15]^block->l[(i+8)&15] ^block->l[(i+2)&15]^block->l[i&15],1)));\
 		sprintf(str, "%s%08x", str,(rol(block->l[(i+13)&15]^block->l[(i+8)&15] ^block->l[(i+2)&15]^block->l[i&15],1)) );\
-		printf("sha1_3_7_1_%d:%x\n",i,(((w&(x^y))^y)+z+rol(v,5)+(rol(block->l[(i+13)&15]^block->l[(i+8)&15]^block->l[(i+2)&15]^block->l[i&15],1))));\
+		printf("sha1_3_27_15_%d:%x\n",i+1,(((w&(x^y))^y)+z+rol(v,5)+(rol(block->l[(i+13)&15]^block->l[(i+8)&15]^block->l[(i+2)&15]^block->l[i&15],1))));\
 		z+=((w&(x^y))^y)+blk(i)+0x5A827999+rol(v,5);\
-		printf("sha1_3_4_1_%d:%x\n",i,(((w&(x^y))^y)));w=rol(w,30);\
-		printf("sha1_3_8_1_%d:%x\n",i, z);\
-		printf("sha1_3_8_2_%d:%x\n",i, v);\
-		printf("sha1_3_8_3_%d:%x\n",i, x);\
-		printf("sha1_3_8_4_%d:%x\n",i, y);
+		printf("sha1_3_9_10_%d:%x\n",i,(((w&(x^y))^y)));w=rol(w,30);\
+		printf("sha1_3_28_18_%d:%x\n",i+1, z);\
+		printf("sha1_3_28_19_%d:%x\n",i+1, v);\
+		printf("sha1_3_28_21_%d:%x\n",i+1, x);\
+		printf("sha1_3_28_22_%d:%x\n",i+1, y);
 		
 
 
-#define R2(v,w,x,y,z,i,str) printf("sha1_3_1_1_%d:%x\n",i,v);\
-		printf("sha1_3_1_2_%d:%x\n",i,w);\
-		printf("sha1_3_1_3_%d:%x\n",i,x);\
-		printf("sha1_3_1_4_%d:%x\n",i,y);\
-		printf("sha1_3_1_5_%d:%x\n",i,z);\
-		printf("sha1_3_1_6_%d:%x\n",i,(rol(block->l[(i+13)&15]^block->l[(i+8)&15] ^block->l[(i+2)&15]^block->l[i&15],1)));\
-		printf("sha1_3_1_7_%d:6ED9EBA1\n",i);\
-		printf("sha1_3_2_1_%d:%x\n",i,rol(v,5));\
-	    printf("sha1_3_3_1_%d:%x\n",i,rol(w,30));\
-		printf("sha1_3_5_1_%d:%x\n",i,((w^x^y)+z));\
-		printf("sha1_3_6_1_%d:%x\n",i,((w^x^y)+z+rol(v,5)));\
+#define R2(v,w,x,y,z,i,str) printf("sha1_3_1_2_%d:%x\n",i+1,v);\
+		printf("sha1_3_1_3_%d:%x\n",i+1,w);\
+		printf("sha1_3_1_4_%d:%x\n",i+1,x);\
+		printf("sha1_3_1_5_%d:%x\n",i+1,y);\
+		printf("sha1_3_1_6_%d:%x\n",i+1,z);\
+		printf("sha1_3_1_14_%d:%x\n",i+1,(rol(block->l[(i+13)&15]^block->l[(i+8)&15] ^block->l[(i+2)&15]^block->l[i&15],1)));\
+		printf("sha1_3_1_16_%d:6ED9EBA1\n",i);\
+		printf("sha1_3_7_11_%d:%x\n",i+1,rol(v,5));\
+	    printf("sha1_3_8_20_%d:%x\n",i+1,rol(w,30));\
+		printf("sha1_3_25_12_%d:%x\n",i+1,((w^x^y)+z));\
+		printf("sha1_3_26_13_%d:%x\n",i+1,((w^x^y)+z+rol(v,5)));\
 		printf("sha1_2_8_%d_%d:%08x\n",i+1,i,(rol(block->l[(i+13)&15]^block->l[(i+8)&15] ^block->l[(i+2)&15]^block->l[i&15],1)));\
 		sprintf(str, "%s%08x", str,(rol(block->l[(i+13)&15]^block->l[(i+8)&15] ^block->l[(i+2)&15]^block->l[i&15],1)) );\
-		printf("sha1_3_7_1_%d:%x\n",i,((w^x^y)+z+rol(v,5)+rol(block->l[(i+13)&15]^block->l[(i+8)&15] ^block->l[(i+2)&15]^block->l[i&15],1)));\
+		printf("sha1_3_27_15_%d:%x\n",i+1,((w^x^y)+z+rol(v,5)+rol(block->l[(i+13)&15]^block->l[(i+8)&15] ^block->l[(i+2)&15]^block->l[i&15],1)));\
 		z+=(w^x^y)+blk(i)+0x6ED9EBA1+rol(v,5);\
-		printf("sha1_3_4_1_%d:%x\n",i,((w^x^y)));w=rol(w,30);\
-		printf("sha1_3_8_1_%d:%x\n",i, z);\
-		printf("sha1_3_8_2_%d:%x\n",i, v);\
-		printf("sha1_3_8_3_%d:%x\n",i, x);\
-		printf("sha1_3_8_4_%d:%x\n",i, y);
+		printf("sha1_3_9_10_%d:%x\n",i+1,((w^x^y)));w=rol(w,30);\
+		printf("sha1_3_28_18_%d:%x\n",i+1, z);\
+		printf("sha1_3_28_19_%d:%x\n",i+1, v);\
+		printf("sha1_3_28_21_%d:%x\n",i+1, x);\
+		printf("sha1_3_28_22_%d:%x\n",i+1, y);
 		
-#define R3(v,w,x,y,z,i,str)  printf("sha1_3_1_1_%d:%x\n",i,v);\
-		printf("sha1_3_1_2_%d:%x\n",i,w);\
-		printf("sha1_3_1_3_%d:%x\n",i,x);\
-		printf("sha1_3_1_4_%d:%x\n",i,y);\
-		printf("sha1_3_1_5_%d:%x\n",i,z);\
-		printf("sha1_3_1_6_%d:%x\n",i,(rol(block->l[(i+13)&15]^block->l[(i+8)&15] ^block->l[(i+2)&15]^block->l[i&15],1)));\
-		printf("sha1_3_1_7_%d:8F1BBCDC\n",i);\
-		printf("sha1_3_2_1_%d:%x\n",i,rol(v,5));\
-	    printf("sha1_3_3_1_%d:%x\n",i,rol(w,30));\
-		printf("sha1_3_5_1_%d:%x\n",i,((((w|x)&y)|(w&x))+z));\
-		printf("sha1_3_6_1_%d:%x\n",i,((((w|x)&y)|(w&x))+z+rol(v,5)));\
+#define R3(v,w,x,y,z,i,str)  printf("sha1_3_1_2_%d:%x\n",i+1,v);\
+		printf("sha1_3_1_3_%d:%x\n",i+1,w);\
+		printf("sha1_3_1_4_%d:%x\n",i+1,x);\
+		printf("sha1_3_1_5_%d:%x\n",i+1,y);\
+		printf("sha1_3_1_6_%d:%x\n",i+1,z);\
+		printf("sha1_3_1_14_%d:%x\n",i+1,(rol(block->l[(i+13)&15]^block->l[(i+8)&15] ^block->l[(i+2)&15]^block->l[i&15],1)));\
+		printf("sha1_3_1_16_%d:8F1BBCDC\n",i);\
+		printf("sha1_3_7_11_%d:%x\n",i+1,rol(v,5));\
+	    printf("sha1_3_8_20_%d:%x\n",i+1,rol(w,30));\
+		printf("sha1_3_25_12_%d:%x\n",i+1,((((w|x)&y)|(w&x))+z));\
+		printf("sha1_3_26_13_%d:%x\n",i+1,((((w|x)&y)|(w&x))+z+rol(v,5)));\
 		printf("sha1_2_8_%d_1:%08x\n",i+1,(rol(block->l[(i+13)&15]^block->l[(i+8)&15] ^block->l[(i+2)&15]^block->l[i&15],1)));\
 		sprintf(str, "%s%08x", str,(rol(block->l[(i+13)&15]^block->l[(i+8)&15] ^block->l[(i+2)&15]^block->l[i&15],1)) );\
-		printf("sha1_3_7_1_%d:%x\n",i,((((w|x)&y)|(w&x))+z+rol(v,5)+rol(block->l[(i+13)&15]^block->l[(i+8)&15] ^block->l[(i+2)&15]^block->l[i&15],1)));\
+		printf("sha1_3_27_15_%d:%x\n",i+1,((((w|x)&y)|(w&x))+z+rol(v,5)+rol(block->l[(i+13)&15]^block->l[(i+8)&15] ^block->l[(i+2)&15]^block->l[i&15],1)));\
 		z+=(((w|x)&y)|(w&x))+blk(i)+0x8F1BBCDC+rol(v,5);\
-		printf("sha1_3_4_1_%d:%x\n",i,(((w|x)&y)|(w&x)));w=rol(w,30);\
-		printf("sha1_3_8_1_%d:%x\n",i, z);\
-		printf("sha1_3_8_2_%d:%x\n",i, v);\
-		printf("sha1_3_8_3_%d:%x\n",i, x);\
-		printf("sha1_3_8_4_%d:%x\n",i, y);
+		printf("sha1_3_9_10_%d:%x\n",i+1,(((w|x)&y)|(w&x)));w=rol(w,30);\
+		printf("sha1_3_28_18_%d:%x\n",i+1, z);\
+		printf("sha1_3_28_19_%d:%x\n",i+1, v);\
+		printf("sha1_3_28_21_%d:%x\n",i+1, x);\
+		printf("sha1_3_28_22_%d:%x\n",i+1, y);
 		
 
 
-#define R4(v,w,x,y,z,i,str) printf("sha1_3_1_1_%d:%x\n",i,v);\
-		printf("sha1_3_1_2_%d:%x\n",i,w);\
-		printf("sha1_3_1_3_%d:%x\n",i,x);\
-		printf("sha1_3_1_4_%d:%x\n",i,y);\
-		printf("sha1_3_1_5_%d:%x\n",i,z);\
-		printf("sha1_3_1_6_%d:%x\n",i,(rol(block->l[(i+13)&15]^block->l[(i+8)&15] ^block->l[(i+2)&15]^block->l[i&15],1)));\
-		printf("sha1_3_1_7_%d:CA62C1D6\n",i);\
-		printf("sha1_3_2_1_%d:%x\n",i,rol(v,5));\
-	    printf("sha1_3_3_1_%d:%x\n",i,rol(w,30));\
-		printf("sha1_3_5_1_%d:%x\n",i,((w^x^y)+z));\
-		printf("sha1_3_6_1_%d:%x\n",i,((w^x^y)+z+rol(v,5)));\
+#define R4(v,w,x,y,z,i,str) printf("sha1_3_1_2_%d:%x\n",i,v);\
+		printf("sha1_3_1_3_%d:%x\n",i,w);\
+		printf("sha1_3_1_4_%d:%x\n",i,x);\
+		printf("sha1_3_1_5_%d:%x\n",i,y);\
+		printf("sha1_3_1_6_%d:%x\n",i,z);\
+		printf("sha1_3_1_14_%d:%x\n",i,(rol(block->l[(i+13)&15]^block->l[(i+8)&15] ^block->l[(i+2)&15]^block->l[i&15],1)));\
+		printf("sha1_3_1_16_%d:CA62C1D6\n",i);\
+		printf("sha1_3_7_11_%d:%x\n",i,rol(v,5));\
+	    printf("sha1_3_8_20_%d:%x\n",i,rol(w,30));\
+		printf("sha1_3_25_12_%d:%x\n",i,((w^x^y)+z));\
+		printf("sha1_3_26_13_%d:%x\n",i,((w^x^y)+z+rol(v,5)));\
 		printf("sha1_2_8_%d_1:%08x\n",i+1,(rol(block->l[(i+13)&15]^block->l[(i+8)&15] ^block->l[(i+2)&15]^block->l[i&15],1)));\
 		sprintf(str, "%s%08x", str,(rol(block->l[(i+13)&15]^block->l[(i+8)&15] ^block->l[(i+2)&15]^block->l[i&15],1)) );\
-		printf("sha1_3_7_1_%d:%x\n",i,((w^x^y)+z+rol(v,5)+rol(block->l[(i+13)&15]^block->l[(i+8)&15] ^block->l[(i+2)&15]^block->l[i&15],1)));\
+		printf("sha1_3_27_15_%d:%x\n",i,((w^x^y)+z+rol(v,5)+rol(block->l[(i+13)&15]^block->l[(i+8)&15] ^block->l[(i+2)&15]^block->l[i&15],1)));\
 		z+=(w^x^y)+blk(i)+0xCA62C1D6+rol(v,5);\
-		printf("sha1_3_4_1_%d:%x\n",i,((w^x^y)));w=rol(w,30);\
-		printf("sha1_3_8_1_%d:%x\n",i, z);\
-		printf("sha1_3_8_2_%d:%x\n",i, v);\
-		printf("sha1_3_8_3_%d:%x\n",i, x);\
-		printf("sha1_3_8_4_%d:%x\n",i, y);
+		printf("sha1_3_9_10_%d:%x\n",i,((w^x^y)));w=rol(w,30);\
+		printf("sha1_3_28_18_%d:%x\n",i, z);\
+		printf("sha1_3_28_19_%d:%x\n",i, v);\
+		printf("sha1_3_28_21_%d:%x\n",i, x);\
+		printf("sha1_3_28_22_%d:%x\n",i, y);
 		
 
 
