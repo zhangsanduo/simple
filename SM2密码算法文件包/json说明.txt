@@ -1,0 +1,3 @@
+position_d.json是面板3解密的数据
+position_e.json是面板2加密的数据
+position_k.json是面板1生成密钥的数据
