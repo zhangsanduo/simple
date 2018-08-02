@@ -55,7 +55,7 @@ A million repetitions of "a"
 	    printf("sha1_3_8_20_%d:%x\n",i+1,rol(w,30));\
 		printf("sha1_3_25_12_%d:%x\n",i+1,(((w&(x^y))^y)+z));\
 		printf("sha1_3_26_13_%d:%x\n",i+1,(((w&(x^y))^y)+z+rol(v,5)));\
-		printf("sha1_2_2_%d_%d:%08x\n",i+1,i,(rol(block->l[i],24)&0xFF00FF00)|(rol(block->l[i],8)&0x00FF00FF));\
+		printf("sha1_2_8_%d_1:%08x\n",i+1,(rol(block->l[i],24)&0xFF00FF00)|(rol(block->l[i],8)&0x00FF00FF));\
 		printf("sha1_3_27_15_%d:%x\n",i+1,(((w&(x^y))^y)+z+rol(v,5)+((rol(block->l[i],24)&0xFF00FF00)|(rol(block->l[i],8)&0x00FF00FF))));\
 	    z+=((w&(x^y))^y)+blk0(i)+0x5A827999+rol(v,5);\
 		printf("sha1_3_9_10_%d:%x\n",i+1,(((w&(x^y))^y)));w=rol(w,30);\
@@ -78,7 +78,7 @@ A million repetitions of "a"
 	    printf("sha1_3_8_20_%d:%x\n",i+1,rol(w,30));\
 		printf("sha1_3_25_12_%d:%x\n",i+1,(((w&(x^y))^y)+z));\
 		printf("sha1_3_26_13_%d:%x\n",i+1,(((w&(x^y))^y)+z+rol(v,5)));\
-		printf("sha1_2_8_%d_%d:%08x\n",i+1,i,(rol(block->l[(i+13)&15]^block->l[(i+8)&15] ^block->l[(i+2)&15]^block->l[i&15],1)));\
+		printf("sha1_2_8_%d_1:%08x\n",i+1,(rol(block->l[(i+13)&15]^block->l[(i+8)&15] ^block->l[(i+2)&15]^block->l[i&15],1)));\
 		sprintf(str, "%s%08x", str,(rol(block->l[(i+13)&15]^block->l[(i+8)&15] ^block->l[(i+2)&15]^block->l[i&15],1)) );\
 		printf("sha1_3_27_15_%d:%x\n",i+1,(((w&(x^y))^y)+z+rol(v,5)+(rol(block->l[(i+13)&15]^block->l[(i+8)&15]^block->l[(i+2)&15]^block->l[i&15],1))));\
 		z+=((w&(x^y))^y)+blk(i)+0x5A827999+rol(v,5);\
@@ -101,7 +101,7 @@ A million repetitions of "a"
 	    printf("sha1_3_8_20_%d:%x\n",i+1,rol(w,30));\
 		printf("sha1_3_25_12_%d:%x\n",i+1,((w^x^y)+z));\
 		printf("sha1_3_26_13_%d:%x\n",i+1,((w^x^y)+z+rol(v,5)));\
-		printf("sha1_2_8_%d_%d:%08x\n",i+1,i,(rol(block->l[(i+13)&15]^block->l[(i+8)&15] ^block->l[(i+2)&15]^block->l[i&15],1)));\
+		printf("sha1_2_8_%d_1:%08x\n",i+1,(rol(block->l[(i+13)&15]^block->l[(i+8)&15] ^block->l[(i+2)&15]^block->l[i&15],1)));\
 		sprintf(str, "%s%08x", str,(rol(block->l[(i+13)&15]^block->l[(i+8)&15] ^block->l[(i+2)&15]^block->l[i&15],1)) );\
 		printf("sha1_3_27_15_%d:%x\n",i+1,((w^x^y)+z+rol(v,5)+rol(block->l[(i+13)&15]^block->l[(i+8)&15] ^block->l[(i+2)&15]^block->l[i&15],1)));\
 		z+=(w^x^y)+blk(i)+0x6ED9EBA1+rol(v,5);\
@@ -367,7 +367,7 @@ void SHA1Transform(
 	  printf("sha1_1_34_%d_1:%x\n",j,state[i]);
 
 	for (i=0,j=18,z=23; i<5; i++,j++)
-	  printf("sha1_2_%d_%d_1:%x\n",j,,z,state[i]);
+	  printf("sha1_2_%d_%d_1:%x\n",j,z,state[i]);
 
 	printf("sha1_1_20_21_1:%s\n",str);
     /* Wipe variables */

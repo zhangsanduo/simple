@@ -115,7 +115,7 @@ int main(int argc,char *argv[])
     sprintf( ( hexresult + (2*offset)), "%02x", result[offset]&0xff);
   }
 
-  printf("sha1_2_1_1_1:%s\n",hexresult);
+  printf("sha1_2_1_2_1:%s\n",hexresult);
 
 
   return re;
