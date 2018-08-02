@@ -231,25 +231,25 @@ static void addRoundKey(int array[4][4], int round,int test) {
     if(test==0) 
    {
     if (round == 0) {
-        printf("aes_1_1_2_%d：", round);
+        printf("aes_1_1_2_%d:", round);
     } else if(1 == round ) {
-        printf("aes_1_3_7_%d：", round);
+        printf("aes_1_3_7_%d:", round);
      } else if(round<=9){
-        printf("aes_1_8_12_%d：", round);
+        printf("aes_1_8_12_%d:", round);
      }
       else
        {
-          printf("aes_1_13_16_%d：", round); 
+          printf("aes_1_13_16_%d:", round); 
        }
    }
     if(test==1) 
    {
     if (round == 10) {
-        printf("aes_2_1_2_0：");
+        printf("aes_2_1_2_0:");
     } else if(9 == round ) {
-        printf("aes_2_3_6_%d：",10-round);
+        printf("aes_2_3_6_%d:",10-round);
      } else if(round<9&&round>0){
-        printf("aes_2_8_11_%d：",10-round);
+        printf("aes_2_8_11_%d:",10-round);
      }
       else
        {
@@ -276,11 +276,11 @@ static void addRoundKey(int array[4][4], int round,int test) {
  */
 static void subBytes(int array[4][4], int num){
     if (num == 1) {
-        printf("aes_1_3_4_%d：", num);
+        printf("aes_1_3_4_%d:", num);
     } else if(2 <= num && num < 10) {
-         printf("aes_1_8_9_%d：", num);
+         printf("aes_1_8_9_%d:", num);
      } else {
-        printf("aes_1_13_14_%d：", num);
+        printf("aes_1_13_14_%d:", num);
      }
     int i, j;
     for(i = 0; i < 4; i++)
@@ -297,11 +297,11 @@ static void subBytes(int array[4][4], int num){
  */
 static void shiftRows(int array[4][4], int num) {
     if (num == 1) {
-        printf("aes_1_3_5_%d：", num);
+        printf("aes_1_3_5_%d:", num);
     } else if(2 <= num && num < 10) {
-         printf("aes_1_8_10_%d：",num);
+         printf("aes_1_8_10_%d:",num);
      } else {
-        printf("aes_1_11_15_%d：", num);
+        printf("aes_1_11_15_%d:", num);
      }
     int rowTwo[4], rowThree[4], rowFour[4];
     int i, j;
@@ -412,9 +412,9 @@ static int GFMul(int n, int s) {
  */
 static void mixColumns(int array[4][4], int num) {
     if (num == 1) {
-        printf("aes_1_3_6_%d：", num);
+        printf("aes_1_3_6_%d:", num);
     } else if(2 <= num && num < 10) {
-         printf("aes_1_8_11_%d：", num);
+         printf("aes_1_8_11_%d:", num);
      }
 
     int tempArray[4][4];
