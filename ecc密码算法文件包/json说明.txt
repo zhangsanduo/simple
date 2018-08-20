@@ -1,0 +1,3 @@
+position_v.json是面板3验签的数据
+position_s.json是面板2签名的数据
+position_k.json是面板1生成密钥的数据
